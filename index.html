@@ -1,0 +1,281 @@
+html_content = """<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TikTok FPS Bypass Studio</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: #0b0b0b;
+            color: #f1f1f1;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            padding: 20px 15px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #222;
+            padding-bottom: 15px;
+            margin-bottom: 30px;
+        }
+        .logo {
+            font-weight: 900;
+            font-size: 1.2rem;
+            letter-spacing: 1px;
+        }
+        .logo span {
+            color: #ff334b;
+        }
+        .menu-btn {
+            background: none;
+            border: 1px solid #333;
+            color: #fff;
+            padding: 8px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .hero {
+            margin-bottom: 35px;
+        }
+        .hero-tag {
+            font-size: 0.75rem;
+            color: #ff334b;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+            font-weight: 700;
+        }
+        .hero h1 {
+            font-size: 2.2rem;
+            line-height: 1.1;
+            font-weight: 900;
+            text-transform: uppercase;
+            margin-bottom: 15px;
+        }
+        .hero p {
+            color: #888;
+            font-size: 0.95rem;
+            line-height: 1.4;
+        }
+        .step-section {
+            margin-bottom: 40px;
+            border-left: 1px solid #222;
+            padding-left: 20px;
+            position: relative;
+        }
+        .step-number {
+            font-size: 0.8rem;
+            color: #ff334b;
+            font-weight: 800;
+            margin-bottom: 5px;
+            letter-spacing: 1px;
+        }
+        .step-title {
+            font-size: 1.3rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 5px;
+        }
+        .step-desc {
+            font-size: 0.85rem;
+            color: #777;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .upload-box {
+            border: 2px dashed #333;
+            background-color: #111;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: border-color 0.3s;
+        }
+        .upload-box:hover {
+            border-color: #ff334b;
+        }
+        .upload-box h3 {
+            font-size: 1.1rem;
+            text-transform: uppercase;
+            margin-bottom: 8px;
+            font-weight: 800;
+        }
+        .upload-box p {
+            font-size: 0.8rem;
+            color: #777;
+        }
+        .method-card {
+            background-color: #121212;
+            border: 1px solid #2a2a2a;
+            padding: 20px;
+            border-radius: 6px;
+            position: relative;
+            margin-bottom: 15px;
+        }
+        .method-card.active {
+            border-color: #ff334b;
+            box-shadow: 0 0 15px rgba(255, 51, 75, 0.1);
+        }
+        .method-badge {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #ff334b;
+            font-weight: 700;
+        }
+        .method-title {
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+        .method-details {
+            font-size: 0.8rem;
+            color: #888;
+            margin-bottom: 5px;
+        }
+        .render-circle-box {
+            background-color: #121212;
+            border: 1px solid #222;
+            padding: 30px;
+            text-align: center;
+            border-radius: 6px;
+        }
+        .render-circle {
+            width: 120px;
+            height: 120px;
+            border: 2px dashed #444;
+            border-radius: 50%;
+            margin: 0 auto 20px auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 800;
+            color: #666;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            letter-spacing: 1px;
+        }
+        .status-text {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.85rem;
+            margin-bottom: 10px;
+        }
+        .status-value {
+            color: #00e5ff;
+            font-weight: 700;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #222;
+            border-radius: 2px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: #ff334b;
+        }
+        .output-box {
+            background-color: #121212;
+            border: 1px dashed #333;
+            padding: 40px 20px;
+            text-align: center;
+            border-radius: 6px;
+            color: #666;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">M <span>BYPASS.DEV</span></div>
+        <button class="menu-btn">☰</button>
+    </header>
+
+    <div class="hero">
+        <div class="hero-tag">⚡ TIKTOK FPS TOOLKIT</div>
+        <h1>BYPASS. RENDER. CONQUER.</h1>
+        <p>Sube tu clip a 60 o 120 FPS y evita la compresión automática de TikTok al instante.</p>
+    </div>
+
+    <!-- PASO 1: UPLOAD -->
+    <div class="step-section">
+        <div class="step-number">01</div>
+        <div class="step-title">Upload</div>
+        <div class="step-desc">Arrastra o selecciona tu clip</div>
+        
+        <div class="upload-box" onclick="document.getElementById('fileInput').click();">
+            <h3>Drop your clip</h3>
+            <p>Click to browse — MP4, MOV, WEBM</p>
+            <input type="file" id="fileInput" style="display: none;" accept="video/*">
+        </div>
+    </div>
+
+    <!-- PASO 2: METHOD -->
+    <div class="step-section">
+        <div class="step-number">02</div>
+        <div class="step-title">Method</div>
+        <div class="step-desc">Pipeline de procesamiento</div>
+
+        <div class="method-card active">
+            <div class="method-badge">● Active</div>
+            <div class="method-title">FPS Bypass Method</div>
+            <div class="method-details">— 60 / 120 FPS source</div>
+            <div class="method-details">— Timescale metadata adjustment</div>
+        </div>
+    </div>
+
+    <!-- PASO 3: RENDER -->
+    <div class="step-section">
+        <div class="step-number">03</div>
+        <div class="step-title">Render</div>
+        <div class="step-desc">Procesamiento local en tu dispositivo</div>
+
+        <div class="render-circle-box">
+            <div class="render-circle">Render</div>
+            <div class="status-text">
+                <span>STATUS</span>
+                <span class="status-value" id="statusText">READY</span>
+            </div>
+            <div class="progress-bar">
+                <div class="progress-fill" id="progressBar"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PASO 4: OUTPUT -->
+    <div class="step-section">
+        <div class="step-number">04</div>
+        <div class="step-title">Output</div>
+        <div class="step-desc">Tu archivo optimizado</div>
+
+        <div class="output-box" id="outputBox">
+            Waiting for a finished render
+        </div>
+    </div>
+
+</body>
+</html>
+"""
+
+with open("index.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
