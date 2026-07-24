@@ -53,7 +53,6 @@
             padding-bottom: 50px;
         }
 
-        /* Canvas de partículas de fondo */
         #particleCanvas {
             position: fixed;
             top: 0;
@@ -377,6 +376,7 @@
             backdrop-filter: blur(15px);
             position: relative;
             overflow: hidden;
+            transition: all 0.4s ease;
         }
 
         .step-wrapper::before {
@@ -387,6 +387,34 @@
             width: 4px;
             height: 100%;
             background: linear-gradient(to bottom, var(--primary-accent), transparent);
+        }
+
+        /* ESTILOS PARA PASOS BLOQUEADOS */
+        .step-wrapper.locked {
+            opacity: 0.45;
+            filter: grayscale(0.8);
+            pointer-events: none;
+            border-color: rgba(100, 100, 100, 0.2);
+        }
+
+        .step-wrapper.locked::after {
+            content: '🔒 BLOQUEADO (COMPLETA EL PASO ANTERIOR)';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(5, 2, 10, 0.95);
+            color: var(--primary-accent);
+            padding: 12px 20px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            letter-spacing: 2px;
+            border-radius: 8px;
+            border: 1px solid var(--primary-accent);
+            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
+            pointer-events: none;
+            text-align: center;
+            z-index: 10;
         }
 
         .step-header {
@@ -575,7 +603,6 @@
 </head>
 <body data-theme="dark">
 
-    <!-- Canvas para el efecto de partículas flotantes de neón -->
     <canvas id="particleCanvas"></canvas>
 
     <div class="background-orbs">
@@ -629,7 +656,8 @@
                 <button class="back-btn" onclick="switchView('home')">← Volver al Inicio</button>
             </div>
 
-            <div class="step-wrapper">
+            <!-- PASO 1 (Siempre abierto) -->
+            <div class="step-wrapper" id="step1">
                 <div class="step-header">
                     <div class="step-num">01</div>
                     <div class="step-title-area">
@@ -645,7 +673,8 @@
                 </div>
             </div>
 
-            <div class="step-wrapper">
+            <!-- PASO 2 (Bloqueado al inicio) -->
+            <div class="step-wrapper locked" id="step2">
                 <div class="step-header">
                     <div class="step-num">02</div>
                     <div class="step-title-area">
@@ -659,7 +688,8 @@
                 </div>
             </div>
 
-            <div class="step-wrapper">
+            <!-- PASO 3 (Bloqueado al inicio) -->
+            <div class="step-wrapper locked" id="step3">
                 <div class="step-header">
                     <div class="step-num">03</div>
                     <div class="step-title-area">
@@ -679,7 +709,8 @@
                 </div>
             </div>
 
-            <div class="step-wrapper">
+            <!-- PASO 4 (Bloqueado al inicio) -->
+            <div class="step-wrapper locked" id="step4">
                 <div class="step-header">
                     <div class="step-num">04</div>
                     <div class="step-title-area">
@@ -700,7 +731,6 @@
     </footer>
 
     <script>
-        /* Motor de partículas dinámicas en el fondo */
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -718,7 +748,7 @@
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2.5 + 0.5;
                 this.speedX = (Math.random() - 0.5) * 0.6;
-                this.speedY = (Math.random() - 0.5) * 0.6 - 0.2; // Tienden a subir ligeramente
+                this.speedY = (Math.random() - 0.5) * 0.6 - 0.2;
                 this.opacity = Math.random() * 0.5 + 0.2;
             }
             update() {
@@ -787,6 +817,10 @@
                 el.classList.remove('active');
             }
             element.classList.add('active');
+            
+            // Al elegir FPS (Paso 2), desbloqueamos el Paso 3 (Render)
+            unlockStep('step3');
+            addLog("> Configuración de FPS aplicada. Motor listo.");
         }
 
         function handleFileSelect(event) {
@@ -794,6 +828,16 @@
             if (file) {
                 document.getElementById('fileNameText').innerText = "ARCHIVO: " + file.name.toUpperCase();
                 addLog("> Clip cargado con éxito en búfer local.");
+                
+                // Al subir el archivo (Paso 1), desbloqueamos el Paso 2 (FPS)
+                unlockStep('step2');
+            }
+        }
+
+        function unlockStep(stepId) {
+            const step = document.getElementById(stepId);
+            if (step && step.classList.contains('locked')) {
+                step.classList.remove('locked');
             }
         }
 
@@ -823,6 +867,9 @@
                 progressFill.style.width = "100%";
                 statusEl.innerText = "COMPLETED";
                 addLog("> ¡Proceso finalizado! Listo para exportar.");
+                
+                // Al terminar el render (Paso 3), desbloqueamos el Paso 4 (Logs)
+                unlockStep('step4');
             }, 2600);
         }
     </script>
