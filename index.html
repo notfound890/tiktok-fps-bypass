@@ -3,28 +3,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MASKA.DEV // YIN YANG DUAL STUDIO</title>
+    <title>MASKA.DEV // ANIME EDITION STUDIO</title>
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700;900&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #050505;
-            --text-main: #ffffff;
-            --text-muted: #888888;
-            --primary-red: #ff0055;
-            --primary-red-dim: rgba(255, 0, 85, 0.15);
-            --border-dark: #222222;
-            --card-bg: rgba(18, 18, 18, 0.85);
+            /* Paleta basada en la nueva imagen (Tonos dorados, violetas oscuros y destellos fucsia/rosas) */
+            --bg-color: #0b0714;
+            --text-main: #fcf6f9;
+            --text-muted: #a69bb1;
+            --primary-accent: #ff2a85;
+            --primary-accent-dim: rgba(255, 42, 133, 0.2);
+            --secondary-glow: #9d4edd;
+            --border-dark: #2a1f3d;
+            --card-bg: rgba(20, 14, 32, 0.85);
             --accent-cyan: #00f2ff;
         }
 
         [data-theme="light"] {
-            --bg-color: #f5f5f5;
-            --text-main: #0a0a0a;
-            --text-muted: #666666;
-            --primary-red: #d90046;
-            --primary-red-dim: rgba(217, 0, 70, 0.1);
-            --border-dark: #cccccc;
-            --card-bg: rgba(235, 235, 235, 0.85);
+            --bg-color: #f7f2fc;
+            --text-main: #180e29;
+            --text-muted: #6b5c7d;
+            --primary-accent: #d90368;
+            --primary-accent-dim: rgba(217, 3, 104, 0.15);
+            --secondary-glow: #7b2cbf;
+            --border-dark: #d5c4e8;
+            --card-bg: rgba(255, 255, 255, 0.9);
             --accent-cyan: #0077ff;
         }
 
@@ -41,13 +44,14 @@
             background-color: var(--bg-color);
             color: var(--text-main);
             font-family: 'Space Grotesk', sans-serif;
-            line-height: 1.6;
+            line-height: 1.7;
             overflow-x: hidden;
             position: relative;
             min-height: 100vh;
+            padding-bottom: 50px;
         }
 
-        /* FONDO DINÁMICO CON ORBES FLOTANTES */
+        /* FONDO DINÁMICO CON ORBES ANIMADOS */
         .background-orbs {
             position: fixed;
             top: 0;
@@ -62,42 +66,43 @@
         .orb {
             position: absolute;
             border-radius: 50%;
-            background: var(--primary-red-dim);
-            filter: blur(80px);
-            animation: floatOrb 10s infinite alternate ease-in-out;
+            background: var(--primary-accent-dim);
+            filter: blur(90px);
+            animation: floatOrb 12s infinite alternate ease-in-out;
         }
 
         .orb-1 {
-            width: 350px;
-            height: 350px;
+            width: 400px;
+            height: 400px;
             top: -100px;
             left: -100px;
             animation-delay: 0s;
         }
 
         .orb-2 {
-            width: 450px;
-            height: 450px;
+            width: 500px;
+            height: 500px;
             bottom: -150px;
             right: -150px;
-            animation-delay: -5s;
+            background: rgba(157, 78, 221, 0.15);
+            animation-delay: -6s;
         }
 
         @keyframes floatOrb {
             0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(50px, 70px) scale(1.2); }
+            100% { transform: translate(60px, 80px) scale(1.25); }
         }
 
-        /* HEADER */
+        /* HEADER CON BUEN ESPACIADO */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: 20px;
+            padding: 24px 30px;
             border-bottom: 1px solid var(--border-dark);
             background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             position: sticky;
             top: 0;
             z-index: 100;
@@ -106,34 +111,34 @@
         .logo {
             font-family: 'Syncopate', sans-serif;
             font-weight: 700;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             letter-spacing: -1px;
             text-transform: uppercase;
         }
 
         .logo span {
-            color: var(--primary-red);
-            text-shadow: 0 0 8px var(--primary-red-dim);
+            color: var(--primary-accent);
+            text-shadow: 0 0 10px var(--primary-accent-dim);
         }
 
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 15px;
+            gap: 20px;
         }
 
         .yin-yang-btn {
             background: none;
             border: 2px solid var(--text-main);
             color: var(--text-main);
-            width: 36px;
-            height: 36px;
+            width: 40px;
+            height: 40px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -142,8 +147,8 @@
         }
 
         .menu-icon {
-            width: 24px;
-            height: 18px;
+            width: 26px;
+            height: 20px;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
@@ -157,7 +162,7 @@
             border-radius: 2px;
         }
 
-        /* VISTAS (SECCIONES) */
+        /* VISTAS */
         .view-section {
             display: none;
             animation: fadeInView 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -168,72 +173,75 @@
         }
 
         @keyframes fadeInView {
-            from { opacity: 0; transform: translateY(15px); }
+            from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* VISTA 1: HOME (Maska.dev estilo exacto de la imagen) */
+        /* VISTA 1: HOME (Más espacioso y limpio) */
         .hero {
-            padding: 40px 20px 30px 20px;
+            padding: 60px 24px 40px 24px;
             text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         .hero-sub {
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            color: var(--primary-red);
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: var(--primary-accent);
             text-transform: uppercase;
             font-weight: 700;
-            margin-bottom: 12px;
+            margin-bottom: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 8px;
+            gap: 10px;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             font-weight: 900;
-            line-height: 1.1;
+            line-height: 1.15;
             text-transform: uppercase;
-            margin-bottom: 20px;
+            margin-bottom: 24px;
             color: var(--text-main);
-            text-shadow: 0 0 25px var(--primary-red-dim);
+            text-shadow: 0 0 30px var(--primary-accent-dim);
             font-family: 'Space Grotesk', sans-serif;
         }
 
         .hero p {
             color: var(--text-muted);
-            font-size: 0.95rem;
-            max-width: 400px;
-            margin: 0 auto 30px auto;
+            font-size: 1.05rem;
+            max-width: 480px;
+            margin: 0 auto 40px auto;
+            line-height: 1.6;
         }
 
         .home-buttons {
-            max-width: 450px;
-            margin: 0 auto 40px auto;
-            padding: 0 20px;
+            max-width: 480px;
+            margin: 0 auto 50px auto;
+            padding: 0 24px;
             display: flex;
             flex-direction: column;
-            gap: 15px;
+            gap: 20px;
         }
 
         .btn-main {
             background-color: var(--text-main);
             color: var(--bg-color);
             border: none;
-            padding: 16px;
+            padding: 18px 24px;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             letter-spacing: 2px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: center;
-            gap: 10px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            gap: 12px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
             transition: transform 0.2s, opacity 0.2s;
         }
 
@@ -245,151 +253,187 @@
             background: transparent;
             color: var(--text-main);
             border: 1px solid var(--border-dark);
-            padding: 16px;
+            padding: 18px 24px;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.85rem;
+            font-size: 0.9rem;
             letter-spacing: 2px;
             cursor: pointer;
-            border-radius: 4px;
+            border-radius: 8px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding-left: 20px;
-            padding-right: 20px;
             transition: border-color 0.3s;
         }
 
         .btn-outline:hover {
-            border-color: var(--primary-red);
+            border-color: var(--primary-accent);
         }
 
         .hero-image-box {
-            max-width: 500px;
+            max-width: 540px;
             margin: 0 auto;
-            padding: 0 20px;
+            padding: 0 24px;
         }
 
         .hero-image-container {
-            border: 2px solid var(--primary-red);
-            border-radius: 8px;
+            border: 2px solid var(--primary-accent);
+            border-radius: 14px;
             overflow: hidden;
             position: relative;
-            box-shadow: 0 0 30px var(--primary-red-dim);
+            box-shadow: 0 0 40px var(--primary-accent-dim);
             background: #000;
+            transform: translateY(0);
+            animation: floatImage 6s ease-in-out infinite alternate;
+        }
+
+        @keyframes floatImage {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-10px); }
         }
 
         .hero-image-container img {
             width: 100%;
             height: auto;
             display: block;
-            filter: contrast(1.1);
+            filter: contrast(1.1) saturate(1.1);
         }
 
-        /* VISTA 2: STUDIO (El panel avanzado de FPS Bypass con estética YIN YANG) */
+        /* VISTA 2: STUDIO (Con más espacio y separación profesional) */
         .studio-container {
-            max-width: 550px;
+            max-width: 600px;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px 24px;
+        }
+
+        .back-nav {
+            margin-bottom: 30px;
+        }
+
+        .back-btn {
+            background: none;
+            border: none;
+            color: var(--text-muted);
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 0.85rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 1px;
+        }
+
+        .back-btn:hover {
+            color: var(--text-main);
         }
 
         .step-wrapper {
-            margin-bottom: 35px;
+            margin-bottom: 45px;
+            background: var(--card-bg);
+            border: 1px solid var(--border-dark);
+            border-radius: 18px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
         }
 
         .step-header {
             display: flex;
             align-items: center;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .step-num {
             font-family: 'VT323', monospace;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: 800;
-            color: var(--primary-red);
-            width: 38px;
-            height: 38px;
-            background-color: var(--card-bg);
+            color: var(--primary-accent);
+            width: 44px;
+            height: 44px;
+            background-color: var(--bg-color);
             border: 1px solid var(--border-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 12px;
+            margin-right: 15px;
+            flex-shrink: 0;
         }
 
         .step-title-area h2 {
-            font-size: 1.1rem;
+            font-size: 1.2rem;
             text-transform: uppercase;
             letter-spacing: 1px;
+            margin-bottom: 3px;
         }
 
         .step-title-area p {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
         }
 
         .upload-zone {
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
+            background: rgba(128, 128, 128, 0.02);
             border: 2px dashed var(--border-dark);
-            border-radius: 12px;
-            padding: 35px 20px;
+            border-radius: 14px;
+            padding: 40px 20px;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s ease;
         }
 
         .upload-zone:hover {
-            border-color: var(--primary-red);
+            border-color: var(--primary-accent);
+            background: var(--primary-accent-dim);
         }
 
         .upload-zone h3 {
-            font-size: 1rem;
+            font-size: 1.05rem;
             margin-bottom: 8px;
             text-transform: uppercase;
+            letter-spacing: 1px;
         }
 
         .upload-zone p {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--text-muted);
-            margin-bottom: 20px;
+            margin-bottom: 24px;
         }
 
         .file-btn {
-            background: var(--primary-red);
+            background: var(--primary-accent);
             color: white;
             border: none;
-            padding: 10px 25px;
-            border-radius: 20px;
+            padding: 12px 28px;
+            border-radius: 24px;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.75rem;
-            letter-spacing: 1px;
+            font-size: 0.8rem;
+            letter-spacing: 1.5px;
             cursor: pointer;
-            box-shadow: 0 4px 15px var(--primary-red-dim);
+            box-shadow: 0 5px 20px var(--primary-accent-dim);
         }
 
         .options-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 15px;
         }
 
         .option-pill {
-            background: var(--card-bg);
+            background: var(--bg-color);
             border: 1px solid var(--border-dark);
-            padding: 14px;
-            border-radius: 10px;
+            padding: 18px;
+            border-radius: 12px;
             text-align: center;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            transition: all 0.2s;
+            transition: all 0.25s;
+            letter-spacing: 1px;
         }
 
         .option-pill.active, .option-pill:hover {
@@ -399,17 +443,17 @@
         }
 
         .render-box {
-            background: var(--card-bg);
+            background: var(--bg-color);
             border: 1px solid var(--border-dark);
-            border-radius: 12px;
-            padding: 25px;
+            border-radius: 14px;
+            padding: 24px;
             text-align: center;
         }
 
         .status-info {
             font-family: 'VT323', monospace;
-            font-size: 1.1rem;
-            margin-bottom: 12px;
+            font-size: 1.2rem;
+            margin-bottom: 15px;
             display: flex;
             justify-content: space-between;
             color: var(--text-muted);
@@ -426,63 +470,41 @@
             background-color: var(--border-dark);
             border-radius: 3px;
             overflow: hidden;
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
 
         .progress-fill {
             width: 0%;
             height: 100%;
-            background-color: var(--primary-red);
+            background-color: var(--primary-accent);
             transition: width 0.4s ease;
         }
 
         .log-terminal {
-            background: #000;
+            background: #05030a;
             color: #00ffcc;
             font-family: 'VT323', monospace;
-            font-size: 0.9rem;
-            padding: 12px;
-            border-radius: 8px;
-            height: 70px;
+            font-size: 0.95rem;
+            padding: 16px;
+            border-radius: 10px;
+            height: 90px;
             overflow-y: hidden;
             text-align: left;
-            border: 1px solid #222;
+            border: 1px solid var(--border-dark);
             display: flex;
             flex-direction: column;
             justify-content: flex-end;
         }
 
-        .back-nav {
-            margin-bottom: 20px;
-        }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            letter-spacing: 1px;
-        }
-
-        .back-btn:hover {
-            color: var(--text-main);
-        }
-
         footer {
             text-align: center;
-            font-size: 0.7rem;
-            opacity: 0.4;
+            font-size: 0.75rem;
+            opacity: 0.5;
             text-transform: uppercase;
             letter-spacing: 3px;
-            padding: 30px 20px;
+            padding: 40px 24px;
             border-top: 1px solid var(--border-dark);
-            margin-top: 40px;
+            margin-top: 50px;
         }
     </style>
 </head>
@@ -505,7 +527,7 @@
         </div>
     </header>
 
-    <!-- VISTA 1: HOME (Exacto a la imagen de referencia) -->
+    <!-- VISTA 1: HOME (Inspirado en tu imagen de referencia y adaptado con la nueva foto) -->
     <section id="homeView" class="view-section active">
         <div class="hero">
             <div class="hero-sub">⚡ World-Class Editing Toolkit</div>
@@ -525,13 +547,13 @@
 
         <div class="hero-image-box">
             <div class="hero-image-container">
-                <!-- Usando la imagen proporcionada por el usuario -->
-                <img src="1000109428_2.jpg" alt="Maska Preview Frame">
+                <!-- Usando la nueva foto que proporcionaste -->
+                <img src="1000109440.jpg" alt="Anime Preview Frame">
             </div>
         </div>
     </section>
 
-    <!-- VISTA 2: STUDIO (Panel de FPS Bypass con diseño enriquecido) -->
+    <!-- VISTA 2: STUDIO (Panel de FPS Bypass con excelente espaciado y diseño armónico) -->
     <section id="studioView" class="view-section">
         <div class="studio-container">
             <div class="back-nav">
@@ -587,7 +609,7 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <button class="btn-main" style="width:100%; margin-top:10px;" onclick="startRenderProcess()">Iniciar Bypass</button>
+                    <button class="btn-main" style="width:100%; margin-top:15px;" onclick="startRenderProcess()">Iniciar Bypass</button>
                 </div>
             </div>
 
