@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700;900&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Degradado de fondo con predominio de negro profundo y acentos en morado oscuro/neón */
             --bg-color: #030006;
             --bg-gradient: radial-gradient(circle at 50% 0%, #150826 0%, #030006 70%);
             --text-main: #fcf6f9;
@@ -52,6 +51,17 @@
             position: relative;
             min-height: 100vh;
             padding-bottom: 50px;
+        }
+
+        /* Canvas de partículas de fondo */
+        #particleCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            pointer-events: none;
         }
 
         .background-orbs {
@@ -565,6 +575,9 @@
 </head>
 <body data-theme="dark">
 
+    <!-- Canvas para el efecto de partículas flotantes de neón -->
+    <canvas id="particleCanvas"></canvas>
+
     <div class="background-orbs">
         <div class="orb orb-1"></div>
         <div class="orb orb-2"></div>
@@ -687,6 +700,62 @@
     </footer>
 
     <script>
+        /* Motor de partículas dinámicas en el fondo */
+        const canvas = document.getElementById('particleCanvas');
+        const ctx = canvas.getContext('2d');
+        let particlesArray = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class Particle {
+            constructor() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2.5 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.6;
+                this.speedY = (Math.random() - 0.5) * 0.6 - 0.2; // Tienden a subir ligeramente
+                this.opacity = Math.random() * 0.5 + 0.2;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
+                if (this.y < 0 || this.y > canvas.height) this.y = canvas.height;
+            }
+            draw() {
+                ctx.fillStyle = document.body.getAttribute('data-theme') === 'light' 
+                    ? `rgba(137, 3, 217, ${this.opacity})` 
+                    : `rgba(176, 38, 255, ${this.opacity})`;
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function initParticles() {
+            particlesArray = [];
+            let numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
+            for (let i = 0; i < numberOfParticles; i++) {
+                particlesArray.push(new Particle());
+            }
+        }
+        initParticles();
+
+        function animateParticles() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (let i = 0; i < particlesArray.length; i++) {
+                particlesArray[i].update();
+                particlesArray[i].draw();
+            }
+            requestAnimationFrame(animateParticles);
+        }
+        animateParticles();
+
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute("data-theme");
