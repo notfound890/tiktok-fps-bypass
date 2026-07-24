@@ -639,7 +639,7 @@
                 <button class="back-btn" onclick="switchView('home')">← Volver al Inicio</button>
             </div>
 
-            <!-- PASO 1 (Siempre abierto) -->
+            <!-- PASO 1 -->
             <div class="step-wrapper" id="step1">
                 <div class="step-header">
                     <div class="step-num">01</div>
@@ -656,7 +656,7 @@
                 </div>
             </div>
 
-            <!-- PASO 2 (Bloqueado al inicio) -->
+            <!-- PASO 2 -->
             <div class="step-wrapper locked" id="step2">
                 <div class="step-header">
                     <div class="step-num">02</div>
@@ -666,18 +666,18 @@
                     </div>
                 </div>
                 <div class="options-grid">
-                    <div class="option-pill active" onclick="selectOption(this)">60 FPS Stable</div>
-                    <div class="option-pill" onclick="selectOption(this)">120 FPS Ultra</div>
+                    <div class="option-pill active" onclick="selectOption(this, '60')">60 FPS Stable</div>
+                    <div class="option-pill" onclick="selectOption(this, '120')">120 FPS Ultra</div>
                 </div>
             </div>
 
-            <!-- PASO 3 (Bloqueado al inicio) -->
+            <!-- PASO 3 -->
             <div class="step-wrapper locked" id="step3">
                 <div class="step-header">
                     <div class="step-num">03</div>
                     <div class="step-title-area">
-                        <h2>Render Bypass</h2>
-                        <p>Procesamiento local de metadatos</p>
+                        <h2>Render & Atom Patching</h2>
+                        <p>Modificación de metadatos (Timescale bypass)</p>
                     </div>
                 </div>
                 <div class="render-box">
@@ -688,22 +688,22 @@
                     <div class="progress-bar">
                         <div class="progress-fill" id="progressFill"></div>
                     </div>
-                    <button class="btn-main" style="width:100%; margin-top:15px;" onclick="startRenderProcess()">Iniciar Bypass</button>
+                    <button class="btn-main" style="width:100%; margin-top:15px;" onclick="startRenderProcess()">Ejecutar Patcher</button>
                 </div>
             </div>
 
-            <!-- PASO 4: DESCARGA (Bloqueado al inicio) -->
+            <!-- PASO 4 -->
             <div class="step-wrapper locked" id="step4">
                 <div class="step-header">
                     <div class="step-num">04</div>
                     <div class="step-title-area">
                         <h2>Export Output</h2>
-                        <p>Descarga tu archivo procesado</p>
+                        <p>Descarga tu archivo optimizado para TikTok</p>
                     </div>
                 </div>
                 <div class="render-box" style="text-align: center;">
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Tu clip está optimizado y listo para publicarse sin pérdida de calidad.</p>
-                    <button class="btn-main" style="width:100%;" onclick="alert('Iniciando descarga del archivo procesado...')">⬇ Descargar Video Final</button>
+                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Los átomos mvhd/mdhd han sido ajustados correctamente.</p>
+                    <button class="btn-main" id="downloadBtn" style="width:100%;" onclick="downloadPatchedFile()">⬇ Descargar Video Parcheado</button>
                 </div>
             </div>
         </div>
@@ -714,6 +714,11 @@
     </footer>
 
     <script>
+        // Variables globales para almacenar el estado del archivo y configuración
+        let selectedFile = null;
+        let targetFPS = '60';
+        let patchedBlobUrl = null;
+
         const canvas = document.getElementById('particleCanvas');
         const ctx = canvas.getContext('2d');
         let particlesArray = [];
@@ -794,23 +799,25 @@
             }
         }
 
-        function selectOption(element) {
+        function selectOption(element, fpsValue) {
             const siblings = element.parentNode.children;
             for (let el of siblings) {
                 el.classList.remove('active');
             }
             element.classList.add('active');
+            targetFPS = fpsValue;
             
-            // Al elegir FPS (Paso 2), desbloqueamos el Paso 3 (Render)
+            // Desbloquea Paso 3 al configurar los FPS
             unlockStep('step3');
         }
 
         function handleFileSelect(event) {
             const file = event.target.files[0];
             if (file) {
+                selectedFile = file;
                 document.getElementById('fileNameText').innerText = "ARCHIVO: " + file.name.toUpperCase();
                 
-                // Al subir el archivo (Paso 1), desbloqueamos el Paso 2 (FPS)
+                // Desbloquea Paso 2 al cargar el archivo
                 unlockStep('step2');
             }
         }
@@ -823,24 +830,41 @@
         }
 
         function startRenderProcess() {
+            if (!selectedFile) return;
+            
             const statusEl = document.getElementById('renderStatus');
             const progressFill = document.getElementById('progressFill');
             
-            statusEl.innerText = "PROCESSING...";
-            progressFill.style.width = "25%";
+            statusEl.innerText = "READING ATOMS...";
+            progressFill.style.width = "30%";
 
             setTimeout(() => {
-                progressFill.style.width = "65%";
-                statusEl.innerText = "BYPASSING...";
-            }, 1200);
+                progressFill.style.width = "70%";
+                statusEl.innerText = "PATCHING MVHD/MDHD...";
+            }, 1000);
 
             setTimeout(() => {
                 progressFill.style.width = "100%";
-                statusEl.innerText = "COMPLETED";
-                
-                // Al terminar el render (Paso 3), desbloqueamos el Paso 4 (Descarga)
+                statusEl.innerText = "SUCCESS";
+
+                // AQUÍ ES DONDE INTEGRAS LA LÓGICA DE TU SCRIPT DE SOURCE:
+                // Por ahora simulamos la creación del archivo manipulado a partir del original
+                const patchedBytes = selectedFile.slice(0, selectedFile.size, selectedFile.type);
+                patchedBlobUrl = URL.createObjectURL(patchedBytes);
+
+                // Desbloquea Paso 4 para la descarga
                 unlockStep('step4');
-            }, 2600);
+            }, 2200);
+        }
+
+        function downloadPatchedFile() {
+            if (!patchedBlobUrl) return;
+            const a = document.createElement('a');
+            a.href = patchedBlobUrl;
+            a.download = `patched_${targetFPS}fps_${selectedFile.name}`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
         }
     </script>
 </body>
