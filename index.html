@@ -286,11 +286,27 @@
             100% { transform: translateY(-10px); }
         }
 
+        /* CONTENEDOR SEGURO PARA IMAGEN CON FALLBACK VISUAL */
         .hero-image-container img {
             width: 100%;
             height: auto;
             display: block;
             filter: contrast(1.1) saturate(1.1);
+        }
+
+        .image-error-fallback {
+            padding: 40px 20px;
+            text-align: center;
+            background: rgba(255, 42, 133, 0.05);
+            color: var(--text-muted);
+            font-size: 0.85srem;
+        }
+
+        .image-error-fallback span {
+            color: var(--primary-accent);
+            font-weight: bold;
+            display: block;
+            margin-bottom: 8px;
         }
 
         .studio-container {
@@ -539,8 +555,12 @@
 
         <div class="hero-image-box">
             <div class="hero-image-container">
-                <!-- Imagen actualizada con el nombre exacto de tu archivo -->
-                <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Anime Preview Frame">
+                <!-- Se agregó un sistema de seguridad (onerror) para que si la imagen no carga, te avise exactamente qué nombre busca -->
+                <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Anime Preview Frame" onerror="this.style.display='none'; document.getElementById('fallbackMsg').style.display='block';">
+                <div id="fallbackMsg" class="image-error-fallback" style="display: none;">
+                    <span>⚠️ Imagen no encontrada por GitHub</span>
+                    Sube la foto a tu repositorio con el nombre exacto:<br><strong>503b650047bc2e1d89bc29ef09d912bf.jpg</strong>
+                </div>
             </div>
         </div>
     </section>
