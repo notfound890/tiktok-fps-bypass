@@ -3,30 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>YIN YANG | TIKTOK FPS BYPASS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=VT323&display=swap" rel="stylesheet">
+    <title>YIN YANG // ULTIMATE FPS BYPASS</title>
+    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #000000;
+            --bg-color: #030303;
             --text-color: #ffffff;
-            --card-bg: #111111;
-            --border-color: #333333;
-            --accent: #ffffff;
+            --card-bg: rgba(18, 18, 18, 0.75);
+            --border-color: rgba(255, 255, 255, 0.12);
+            --accent-glow: rgba(255, 255, 255, 0.2);
+            --orb-color: rgba(255, 255, 255, 0.03);
         }
 
         [data-theme="light"] {
-            --bg-color: #ffffff;
-            --text-color: #000000;
-            --card-bg: #f2f2f2;
-            --border-color: #cccccc;
-            --accent: #000000;
+            --bg-color: #fbfbfb;
+            --text-color: #0c0c0c;
+            --card-bg: rgba(235, 235, 235, 0.75);
+            --border-color: rgba(0, 0, 0, 0.12);
+            --accent-glow: rgba(0, 0, 0, 0.15);
+            --orb-color: rgba(0, 0, 0, 0.03);
         }
 
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
-            transition: background-color 0.4s ease, color 0.4s ease, border-color 0.4s ease;
+            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         body {
@@ -34,65 +36,141 @@
             color: var(--text-color);
             font-family: 'Space Grotesk', sans-serif;
             padding: 20px;
-            max-width: 500px;
+            max-width: 600px;
             margin: 0 auto;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+            position: relative;
+            overflow-x: hidden;
         }
 
+        /* FONDO DINÁMICO DE ORBES FLOTANTES */
+        .background-orbs {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+            pointer-events: none;
+        }
+
+        .orb {
+            position: absolute;
+            border-radius: 50%;
+            background: var(--orb-color);
+            filter: blur(60px);
+            animation: floatOrb 12s infinite alternate ease-in-out;
+        }
+
+        .orb-1 {
+            width: 300px;
+            height: 300px;
+            top: -50px;
+            left: -50px;
+            animation-delay: 0s;
+        }
+
+        .orb-2 {
+            width: 400px;
+            height: 400px;
+            bottom: -100px;
+            right: -100px;
+            animation-delay: -5s;
+        }
+
+        @keyframes floatOrb {
+            0% { transform: translate(0, 0) scale(1); }
+            100% { transform: translate(40px, 60px) scale(1.15); }
+        }
+
+        /* HEADER CON EFECTO DE CRISTAL */
         header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding-bottom: 20px;
-            border-bottom: 2px solid var(--border-color);
+            padding: 15px 25px;
+            background: var(--card-bg);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
             margin-bottom: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            animation: fadeInDown 0.8s ease-out;
         }
 
         .logo {
+            font-family: 'Syncopate', sans-serif;
             font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: 2px;
+            font-size: 0.95rem;
+            letter-spacing: 3px;
             text-transform: uppercase;
         }
 
-        /* Botón Yin Yang Switch */
+        /* BOTÓN YIN YANG GIRATORIO */
         .yin-yang-btn {
             background: none;
             border: 2px solid var(--text-color);
             color: var(--text-color);
-            width: 40px;
-            height: 40px;
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
             cursor: pointer;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 0 10px rgba(128,128,128,0.2);
+            font-size: 1.4rem;
+            box-shadow: 0 0 15px var(--accent-glow);
+            transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), background-color 0.3s, color 0.3s;
         }
 
+        .yin-yang-btn:hover {
+            transform: rotate(180deg) scale(1.1);
+        }
+
+        /* SECCIÓN HERO CON ANIMACIÓN DE ENTRADA */
         .hero {
             text-align: center;
-            margin-bottom: 40px;
+            margin-bottom: 35px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero-badge {
+            display: inline-block;
+            font-family: 'VT323', monospace;
+            font-size: 1.1rem;
+            letter-spacing: 2px;
+            padding: 4px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            margin-bottom: 15px;
+            background: var(--card-bg);
+            text-transform: uppercase;
         }
 
         .hero h1 {
-            font-size: 2.5rem;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 10px;
+            margin-bottom: 12px;
             letter-spacing: -1px;
+            line-height: 1.2;
         }
 
         .hero p {
             font-size: 0.9rem;
-            opacity: 0.7;
+            opacity: 0.65;
+            max-width: 420px;
+            margin: 0 auto;
+            font-weight: 300;
         }
 
-        /* Contenedor de Fases (Diseño Nuevo Minimalista Circular/Cuadrado) */
+        /* CONTENEDOR DE FASES LARGO Y DETALLADO */
         .phase-container {
             display: flex;
             flex-direction: column;
@@ -101,35 +179,80 @@
         }
 
         .phase-card {
-            background-color: var(--card-bg);
-            border: 2px solid var(--border-color);
-            border-radius: 16px;
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
             padding: 25px;
             position: relative;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.04);
+            transform: translateY(20px);
+            opacity: 0;
+            animation: slideUpFade 0.8s forwards;
+        }
+
+        .phase-card:nth-child(1) { animation-delay: 0.1s; }
+        .phase-card:nth-child(2) { animation-delay: 0.2s; }
+        .phase-card:nth-child(3) { animation-delay: 0.3s; }
+        .phase-card:nth-child(4) { animation-delay: 0.4s; }
+        .phase-card:nth-child(5) { animation-delay: 0.5s; }
+
+        .phase-header-flex {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 12px;
         }
 
         .phase-number {
             font-family: 'VT323', monospace;
-            font-size: 1.5rem;
-            opacity: 0.5;
-            margin-bottom: 5px;
+            font-size: 1.3rem;
+            opacity: 0.4;
+            letter-spacing: 1px;
+        }
+
+        .phase-tag {
+            font-size: 0.65rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            padding: 3px 8px;
+            border-radius: 6px;
+            border: 1px solid var(--border-color);
+            opacity: 0.7;
         }
 
         .phase-title {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
             font-weight: 700;
             text-transform: uppercase;
             margin-bottom: 15px;
+            letter-spacing: 0.5px;
         }
 
-        /* Zona de interacción nueva */
+        /* ZONA DE CARGA CON EFECTO HOVER LUMÍNICO */
         .dropzone {
             border: 2px dashed var(--border-color);
-            border-radius: 10px;
-            padding: 30px 15px;
+            border-radius: 14px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
+            background: rgba(128, 128, 128, 0.02);
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .dropzone:hover {
+            border-color: var(--text-color);
             background: rgba(128, 128, 128, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .dropzone-icon {
+            font-size: 1.8rem;
+            margin-bottom: 8px;
+            display: block;
         }
 
         .dropzone span {
@@ -139,90 +262,190 @@
             letter-spacing: 1px;
         }
 
-        /* Botón de acción estilo brutalista */
+        /* SELECTOR DE OPCIONES AVANZADAS (NUEVO) */
+        .options-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .option-pill {
+            background: transparent;
+            border: 1px solid var(--border-color);
+            padding: 10px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .option-pill.active, .option-pill:hover {
+            background-color: var(--text-color);
+            color: var(--bg-color);
+            border-color: var(--text-color);
+        }
+
+        /* BOTÓN DE ACCIÓN ESTILO NEON MINIMAL */
         .action-btn {
             width: 100%;
             background-color: var(--text-color);
             color: var(--bg-color);
             border: none;
-            padding: 15px;
+            padding: 16px;
             font-family: 'Space Grotesk', sans-serif;
             font-weight: 700;
             text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 1px;
-            border-radius: 8px;
+            font-size: 0.85rem;
+            letter-spacing: 2px;
+            border-radius: 12px;
             cursor: pointer;
-            margin-top: 10px;
+            box-shadow: 0 5px 20px var(--accent-glow);
+            transition: transform 0.2s ease, opacity 0.2s;
         }
 
+        .action-btn:active {
+            transform: scale(0.97);
+        }
+
+        /* CONSOLA DE ESTADO ESTILO RETRO-FUTURISTA */
         .status-display {
             font-family: 'VT323', monospace;
-            font-size: 1.4rem;
+            font-size: 1.5rem;
             letter-spacing: 1px;
             text-align: center;
-            padding: 10px;
+            padding: 15px;
             border: 1px solid var(--border-color);
-            border-radius: 8px;
+            border-radius: 12px;
+            background: rgba(0,0,0,0.02);
+            text-transform: uppercase;
+        }
+
+        /* LISTA DE LOGS DETALLADA (NUEVO BLOQUE LARGO) */
+        .log-terminal {
+            background: #000000;
+            color: #00ffcc;
+            font-family: 'VT323', monospace;
+            font-size: 0.95rem;
+            padding: 12px 15px;
+            border-radius: 10px;
+            height: 80px;
+            overflow-y: hidden;
+            border: 1px solid #222;
+            margin-top: 10px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+        }
+
+        [data-theme="light"] .log-terminal {
+            background: #111111;
         }
 
         footer {
             text-align: center;
-            font-size: 0.75rem;
-            opacity: 0.5;
+            font-size: 0.7rem;
+            opacity: 0.4;
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
+            padding-top: 20px;
+            border-top: 1px solid var(--border-color);
+        }
+
+        /* ANIMACIONES CLAVE */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUpFade {
+            to { opacity: 1; transform: translateY(0); }
         }
     </style>
 </head>
 <body data-theme="dark">
 
+    <div class="background-orbs">
+        <div class="orb orb-1"></div>
+        <div class="orb orb-2"></div>
+    </div>
+
     <header>
         <div class="logo">YIN // YANG</div>
-        <button class="yin-yang-btn" id="themeToggle" onclick="toggleTheme()">☯</button>
+        <button class="yin-yang-btn" id="themeToggle" onclick="toggleTheme()" title="Cambiar Modo">☯</button>
     </header>
 
     <div class="hero">
+        <div class="hero-badge">v2.4 // Dual Engine Active</div>
         <h1>DUAL FPS BYPASS</h1>
-        <p>Equilibrio perfecto entre fluidez y metadatos.</p>
+        <p>Sincronización cuántica de metadatos para preservar tus 60 y 120 FPS intactos en TikTok.</p>
     </div>
 
     <div class="phase-container">
         <!-- FASE 1: INGESTA -->
         <div class="phase-card">
-            <div class="phase-number">01 // FASE</div>
+            <div class="phase-header-flex">
+                <div class="phase-number">01 // FASE</div>
+                <div class="phase-tag">Entrada</div>
+            </div>
             <div class="phase-title">Carga de Origen</div>
             <div class="dropzone" onclick="document.getElementById('fileInput').click();">
-                <span>+ Seleccionar Clip 60/120 FPS</span>
-                <input type="file" id="fileInput" style="display: none;" accept="video/*">
+                <span class="dropzone-icon">📁</span>
+                <span id="fileNameDisplay">Arrastra tu clip o pulsa para buscar</span>
+                <input type="file" id="fileInput" style="display: none;" accept="video/*" onchange="handleFileSelect(event)">
             </div>
         </div>
 
-        <!-- FASE 2: EQUILIBRIO (Método) -->
+        <!-- FASE 2: CONFIGURACIÓN DE TASA (NUEVO BLOQUE RICO) -->
         <div class="phase-card">
-            <div class="phase-number">02 // FASE</div>
-            <div class="phase-title">Motor de Armonía</div>
-            <p style="font-size: 0.85rem; opacity: 0.8; margin-bottom: 10px;">• Ajuste automático de Timescale</p>
-            <p style="font-size: 0.85rem; opacity: 0.8;">• Supresión de compresión TikTok</p>
+            <div class="phase-header-flex">
+                <div class="phase-number">02 // FASE</div>
+                <div class="phase-tag">Parámetros</div>
+            </div>
+            <div class="phase-title">Tasa de Fluidez Objetivo</div>
+            <div class="options-grid">
+                <div class="option-pill active" onclick="selectOption(this)">60 FPS (Standard)</div>
+                <div class="option-pill" onclick="selectOption(this)">120 FPS (Ultra Fluid)</div>
+            </div>
         </div>
 
-        <!-- FASE 3: EJECUCIÓN -->
+        <!-- FASE 3: MOTOR DE ARMONÍA -->
         <div class="phase-card">
-            <div class="phase-number">03 // FASE</div>
-            <div class="phase-title">Sintonización</div>
-            <button class="action-btn" onclick="triggerProcess()">Iniciar Proceso</button>
+            <div class="phase-header-flex">
+                <div class="phase-number">03 // FASE</div>
+                <div class="phase-tag">Pipeline</div>
+            </div>
+            <div class="phase-title">Núcleo de Modificación</div>
+            <p style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 12px; line-height: 1.4;">• Ajuste profundo del Timescale de video.</p>
+            <p style="font-size: 0.8rem; opacity: 0.7; margin-bottom: 15px; line-height: 1.4;">• Bypass directo para el codificador móvil de TikTok.</p>
+            <button class="action-btn" onclick="triggerProcess()">Iniciar Transformación</button>
         </div>
 
-        <!-- FASE 4: RESULTADO -->
+        <!-- FASE 4: TERMINAL DE LOGS Y ESTADO -->
         <div class="phase-card">
-            <div class="phase-number">04 // FASE</div>
-            <div class="phase-title">Destino</div>
-            <div class="status-display" id="statusBox">ESPERANDO ARCHIVO</div>
+            <div class="phase-header-flex">
+                <div class="phase-number">04 // FASE</div>
+                <div class="phase-tag">Sistema</div>
+            </div>
+            <div class="phase-title">Consola de Estado</div>
+            <div class="status-display" id="statusBox">SISTEMA EN ESPERA...</div>
+            <div class="log-terminal" id="logTerminal">
+                <span>> Initializing dual matrix state...</span>
+                <span>> Waiting for media input...</span>
+            </div>
         </div>
     </div>
 
     <footer>
-        Balance System &copy; 2026
+        Yin Yang Architecture &copy; 2026 // Secure Local Bypass
     </footer>
 
     <script>
@@ -236,12 +459,44 @@
             }
         }
 
+        function selectOption(element) {
+            const siblings = element.parentNode.children;
+            for (let el of siblings) {
+                el.classList.remove('active');
+            }
+            element.classList.add('active');
+        }
+
+        function handleFileSelect(event) {
+            const file = event.target.files[0];
+            if (file) {
+                document.getElementById('fileNameDisplay').innerText = "ARCHIVO: " + file.name.toUpperCase();
+                addLog("> Archivo cargado correctamente en memoria.");
+            }
+        }
+
+        function addLog(text) {
+            const terminal = document.getElementById('logTerminal');
+            const span = document.createElement('span');
+            span.innerText = text;
+            terminal.appendChild(span);
+            terminal.scrollTop = terminal.scrollHeight;
+        }
+
         function triggerProcess() {
             const status = document.getElementById("statusBox");
-            status.innerText = "EQUILIBRANDO...";
+            status.innerText = "CALIBRANDO TIMESCALE...";
+            addLog("> Iniciando secuencia de bypass de FPS...");
+            
+            setTimeout(() => {
+                status.innerText = "APLICANDO PARCHE METADATOS...";
+                addLog("> Modificando estructura de contenedores MP4...");
+            }, 1200);
+
             setTimeout(() => {
                 status.innerText = "¡LISTO PARA DESCARGAR!";
-            }, 1500);
+                addLog("> Proceso completado con éxito. Fluidez asegurada.");
+            }, 2800);
         }
     </script>
 </body>
