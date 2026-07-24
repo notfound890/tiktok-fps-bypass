@@ -6,7 +6,6 @@
     <title>TIKTOK FPS UNLOCKER | PRO</title>
     <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@300;400;600;800;900&family=Roboto+Mono:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        /* --- VARIABLES Y RESET --- */
         :root {
             --bg-color: #050505;
             --primary-red: #ff0055;
@@ -34,8 +33,6 @@
             position: relative;
             padding-bottom: 40px;
         }
-
-        /* --- FONDO DECORATIVO ANIMADO (Estilo Matriz Sutil) --- */
         body::before {
             content: "";
             position: fixed;
@@ -50,8 +47,6 @@
             z-index: -1;
             opacity: 0.5;
         }
-
-        /* --- HEADER --- */
         header {
             display: flex;
             justify-content: space-between;
@@ -89,8 +84,6 @@
             background: var(--text-main);
             border-radius: 2px;
         }
-
-        /* --- SECCIÓN HERO --- */
         .hero {
             padding: 40px 20px 30px 20px;
             text-align: center;
@@ -105,121 +98,51 @@
             margin-bottom: 10px;
         }
         .hero h1 {
-            font-size: 2.8rem;
+            font-size: 2.5rem;
             font-weight: 900;
-            line-height: 1;
+            line-height: 1.1;
             text-transform: uppercase;
             margin-bottom: 20px;
-            /* EFECTO GLITCH EN TÍTULO */
-            position: relative;
-            display: inline-block;
+            color: var(--text-main);
+            text-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
         }
-        .hero h1::before, .hero h1::after {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-        }
-        .hero h1::before {
-            left: 2px;
-            text-shadow: -2px 0 var(--accent-cyan);
-            clip: rect(44px, 450px, 56px, 0);
-            animation: glitch-anim 5s infinite linear alternate-reverse;
-        }
-        .hero h1::after {
-            left: -2px;
-            text-shadow: -2px 0 var(--primary-red);
-            clip: rect(86px, 450px, 140px, 0);
-            animation: glitch-anim 3s infinite linear alternate-reverse;
-        }
-
-        @keyframes glitch-anim {
-            $steps: 20;
-            @for $i from 0 through$steps {
-                #{percentage($i*(1/$steps))} {
-                    clip: rect(random(150)+px, 9999px, random(150)+px, 0);
-                }
-            }
-        }
-
         .hero p {
             color: var(--text-muted);
-            font-size: 1rem;
+            font-size: 0.95rem;
             max-width: 400px;
             margin: 0 auto 30px auto;
         }
-        .decor-line {
-            width: 60px;
-            height: 3px;
-            background: linear-gradient(90deg, transparent, var(--primary-red), transparent);
-            margin: 0 auto 30px auto;
-        }
-
-        /* --- CONTENEDOR PRINCIPAL DE PASOS --- */
         .main-container {
             padding: 0 20px;
             max-width: 550px;
             margin: 0 auto;
         }
-
         .step-wrapper {
             margin-bottom: 40px;
             position: relative;
         }
-        
-        /* Línea vertical decorativa de los pasos */
-        .step-wrapper::before {
-            content: "";
-            position: absolute;
-            left: 15px;
-            top: 30px;
-            bottom: -10px;
-            width: 1px;
-            background-color: var(--border-dark);
-            z-index: -1;
-        }
-
         .step-header {
             display: flex;
             align-items: center;
-            margin-bottom: 20px;
+            margin-bottom: 15px;
         }
         .step-num {
             font-family: var(--font-mono);
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             font-weight: 800;
             color: var(--primary-red);
-            width: 40px;
-            height: 40px;
+            width: 35px;
+            height: 35px;
             background-color: rgba(25, 25, 25, 0.8);
             border: 1px solid var(--border-dark);
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-right: 15px;
-            position: relative;
+            margin-right: 12px;
         }
-        /* Brillo alrededor del número */
-        .step-num::after {
-            content: "";
-            position: absolute;
-            inset: -5px;
-            border: 1px solid var(--primary-red);
-            border-radius: 50%;
-            opacity: 0.5;
-            animation: pulse 2s infinite;
-        }
-        @keyframes pulse {
-            0% { transform: scale(1); opacity: 0.5; }
-            50% { transform: scale(1.1); opacity: 0.2; }
-            100% { transform: scale(1); opacity: 0.5; }
-        }
-
         .step-title-area h2 {
-            font-size: 1.2rem;
+            font-size: 1.1rem;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
@@ -229,84 +152,48 @@
             text-transform: uppercase;
             letter-spacing: 1px;
         }
-
-        /* --- PASO 1: UPLOAD (Diseño Mejorado) --- */
         .upload-zone {
             background: linear-gradient(145deg, #0f0f0f, #1a1a1a);
-            border: 1px solid var(--border-dark);
+            border: 2px dashed #333;
             border-radius: 12px;
-            padding: 40px 20px;
+            padding: 35px 20px;
             text-align: center;
             cursor: pointer;
-            transition: all 0.4s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        /* Efecto de borde neón al hover */
-        .upload-zone::before {
-            content: "";
-            position: absolute;
-            inset: 0;
-            border-radius: 12px;
-            padding: 2px; 
-            background: linear-gradient(45deg, var(--primary-red), var(--accent-cyan), var(--primary-red));
-            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-            -webkit-mask-composite: xor;
-            mask-composite: exclude;
-            opacity: 0;
-            transition: opacity 0.4s;
-        }
-        .upload-zone:hover::before {
-            opacity: 1;
+            transition: all 0.3s ease;
         }
         .upload-zone:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
-        }
-        .upload-icon {
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--primary-red);
+            border-color: var(--primary-red);
         }
         .upload-zone h3 {
-            font-size: 1.1rem;
-            margin-bottom: 5px;
+            font-size: 1rem;
+            margin-bottom: 8px;
             text-transform: uppercase;
         }
         .upload-zone p {
             font-size: 0.75rem;
             color: var(--text-muted);
-            margin-bottom: 15px;
+            margin-bottom: 20px;
         }
         .file-btn {
-            background: linear-gradient(90deg, var(--primary-red), #ff4d88);
+            background: var(--primary-red);
             color: white;
             border: none;
-            padding: 12px 30px;
-            border-radius: 30px;
+            padding: 10px 25px;
+            border-radius: 20px;
             font-weight: 800;
             text-transform: uppercase;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             letter-spacing: 1px;
-            box-shadow: 0 5px 15px rgba(255, 0, 85, 0.4);
             cursor: pointer;
+            box-shadow: 0 4px 15px rgba(255, 0, 85, 0.4);
         }
-
-        /* --- PASO 2: METHOD (Tarjetas Decoradas) --- */
         .method-card {
             background: #111111;
             border: 1px solid var(--primary-red);
             border-radius: 12px;
             padding: 20px;
             position: relative;
-            margin-bottom: 15px;
-            box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
-        }
-        .method-card.disabled {
-            border-color: var(--border-dark);
-            background: #080808;
-            box-shadow: none;
+            box-shadow: 0 0 15px rgba(255, 0, 85, 0.15);
         }
         .status-dot {
             position: absolute;
@@ -321,72 +208,153 @@
         }
         .status-dot::before {
             content: "";
-            width: 8px;
-            height: 8px;
+            width: 6px;
+            height: 6px;
             background-color: var(--accent-cyan);
             border-radius: 50%;
-            margin-right: 8px;
-            box-shadow: 0 0 10px var(--accent-cyan);
-        }
-        .method-card.disabled .status-dot {
-            color: var(--text-muted);
-        }
-        .method-card.disabled .status-dot::before {
-            background-color: var(--border-dark);
-            box-shadow: none;
-        }
-        .method-icon {
-            font-size: 1.5rem;
-            margin-bottom: 10px;
-            color: var(--text-main);
-        }
-        .method-card.disabled .method-icon {
-            color: var(--text-muted);
+            margin-right: 6px;
+            box-shadow: 0 0 8px var(--accent-cyan);
         }
         .method-card h4 {
             font-size: 1rem;
             text-transform: uppercase;
-            margin-bottom: 5px;
+            margin-bottom: 8px;
         }
         .method-details {
             font-size: 0.75rem;
             color: var(--text-muted);
+            margin-bottom: 3px;
         }
-
-        /* --- PASO 3: RENDER (Con barra de estado futurista) --- */
         .render-box {
             background: #111111;
             border: 1px solid var(--border-dark);
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px;
             text-align: center;
-        }
-        .spinner-circle {
-            width: 80px;
-            height: 80px;
-            border: 3px solid var(--border-dark);
-            border-top-color: var(--primary-red);
-            border-radius: 50%;
-            margin: 0 auto 20px auto;
-            animation: spin 1s linear infinite;
-            position: relative;
-        }
-        .spinner-circle::after {
-            content: "⚡";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 1.5rem;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
         .status-info {
             font-family: var(--font-mono);
-            font-size: 0.9rem;
-            margin-bottom: 15px;
+            font-size: 0.85rem;
+            margin-bottom: 12px;
             display: flex;
             justify-content: space-between;
-            color: var(--accent-
+            color: var(--text-muted);
+        }
+        .status-value {
+            color: var(--accent-cyan);
+            font-weight: 700;
+        }
+        .progress-bar {
+            width: 100%;
+            height: 4px;
+            background-color: #222;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .progress-fill {
+            width: 0%;
+            height: 100%;
+            background-color: var(--primary-red);
+        }
+        .output-box {
+            background: #111111;
+            border: 1px dashed #333;
+            border-radius: 12px;
+            padding: 30px 20px;
+            text-align: center;
+            color: var(--text-muted);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="logo">FPS <span>BYPASS</span></div>
+        <div class="menu-icon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <div class="hero">
+        <div class="hero-sub">⚡ TIKTOK OPTIMIZER</div>
+        <h1>BYPASS. RENDER. CONQUER.</h1>
+        <p>Sube tu clip y elimina la compresión de 30 FPS al instante.</p>
+    </div>
+
+    <div class="main-container">
+        <!-- PASO 1 -->
+        <div class="step-wrapper">
+            <div class="step-header">
+                <div class="step-num">01</div>
+                <div class="step-title-area">
+                    <h2>Upload</h2>
+                    <p>Selecciona tu clip de video</p>
+                </div>
+            </div>
+            <div class="upload-zone" onclick="document.getElementById('fileInput').click();">
+                <h3>Drop your clip</h3>
+                <p>MP4, MOV, WEBM — Máxima calidad</p>
+                <button class="file-btn">Browse File</button>
+                <input type="file" id="fileInput" style="display: none;" accept="video/*">
+            </div>
+        </div>
+
+        <!-- PASO 2 -->
+        <div class="step-wrapper">
+            <div class="step-header">
+                <div class="step-num">02</div>
+                <div class="step-title-area">
+                    <h2>Method</h2>
+                    <p>Pipeline activo</p>
+                </div>
+            </div>
+            <div class="method-card">
+                <div class="status-dot">Active</div>
+                <h4>FPS Bypass Method</h4>
+                <div class="method-details">— 60 / 120 FPS source preservation</div>
+                <div class="method-details">— Timescale metadata adjustment</div>
+            </div>
+        </div>
+
+        <!-- PASO 3 -->
+        <div class="step-wrapper">
+            <div class="step-header">
+                <div class="step-num">03</div>
+                <div class="step-title-area">
+                    <h2>Render</h2>
+                    <p>Procesamiento local</p>
+                </div>
+            </div>
+            <div class="render-box">
+                <div class="status-info">
+                    <span>STATUS</span>
+                    <span class="status-value">READY</span>
+                </div>
+                <div class="progress-bar">
+                    <div class="progress-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- PASO 4 -->
+        <div class="step-wrapper">
+            <div class="step-header">
+                <div class="step-num">04</div>
+                <div class="step-title-area">
+                    <h2>Output</h2>
+                    <p>Archivo final</p>
+                </div>
+            </div>
+            <div class="output-box">
+                Waiting for a finished render
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
