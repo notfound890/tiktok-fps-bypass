@@ -7,7 +7,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700;900&family=VT323&display=swap" rel="stylesheet">
     <style>
         :root {
-            /* Paleta basada en la nueva imagen (Tonos dorados, violetas oscuros y destellos fucsia/rosas) */
             --bg-color: #0b0714;
             --text-main: #fcf6f9;
             --text-muted: #a69bb1;
@@ -51,7 +50,6 @@
             padding-bottom: 50px;
         }
 
-        /* FONDO DINÁMICO CON ORBES ANIMADOS */
         .background-orbs {
             position: fixed;
             top: 0;
@@ -93,7 +91,6 @@
             100% { transform: translate(60px, 80px) scale(1.25); }
         }
 
-        /* HEADER CON BUEN ESPACIADO */
         header {
             display: flex;
             justify-content: space-between;
@@ -162,7 +159,6 @@
             border-radius: 2px;
         }
 
-        /* VISTAS */
         .view-section {
             display: none;
             animation: fadeInView 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
@@ -177,7 +173,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* VISTA 1: HOME (Más espacioso y limpio) */
         .hero {
             padding: 60px 24px 40px 24px;
             text-align: center;
@@ -283,7 +278,6 @@
             position: relative;
             box-shadow: 0 0 40px var(--primary-accent-dim);
             background: #000;
-            transform: translateY(0);
             animation: floatImage 6s ease-in-out infinite alternate;
         }
 
@@ -299,7 +293,6 @@
             filter: contrast(1.1) saturate(1.1);
         }
 
-        /* VISTA 2: STUDIO (Con más espacio y separación profesional) */
         .studio-container {
             max-width: 600px;
             margin: 0 auto;
@@ -527,7 +520,6 @@
         </div>
     </header>
 
-    <!-- VISTA 1: HOME (Inspirado en tu imagen de referencia y adaptado con la nueva foto) -->
     <section id="homeView" class="view-section active">
         <div class="hero">
             <div class="hero-sub">⚡ World-Class Editing Toolkit</div>
@@ -547,20 +539,18 @@
 
         <div class="hero-image-box">
             <div class="hero-image-container">
-                <!-- Usando la nueva foto que proporcionaste -->
-                <img src="1000109440.jpg" alt="Anime Preview Frame">
+                <!-- Imagen actualizada con el nombre exacto de tu archivo -->
+                <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Anime Preview Frame">
             </div>
         </div>
     </section>
 
-    <!-- VISTA 2: STUDIO (Panel de FPS Bypass con excelente espaciado y diseño armónico) -->
     <section id="studioView" class="view-section">
         <div class="studio-container">
             <div class="back-nav">
                 <button class="back-btn" onclick="switchView('home')">← Volver al Inicio</button>
             </div>
 
-            <!-- PASO 1 -->
             <div class="step-wrapper">
                 <div class="step-header">
                     <div class="step-num">01</div>
@@ -577,7 +567,6 @@
                 </div>
             </div>
 
-            <!-- PASO 2 -->
             <div class="step-wrapper">
                 <div class="step-header">
                     <div class="step-num">02</div>
@@ -592,7 +581,6 @@
                 </div>
             </div>
 
-            <!-- PASO 3 -->
             <div class="step-wrapper">
                 <div class="step-header">
                     <div class="step-num">03</div>
@@ -613,7 +601,6 @@
                 </div>
             </div>
 
-            <!-- PASO 4 -->
             <div class="step-wrapper">
                 <div class="step-header">
                     <div class="step-num">04</div>
