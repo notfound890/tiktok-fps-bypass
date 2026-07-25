@@ -28,20 +28,16 @@
             overflow-x: hidden;
         }
 
-        /* ── Particles ── */
         #canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; width: 100%; height: 100%; }
 
-        /* ── Orbs ── */
         .orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
         .orb { position: absolute; border-radius: 50%; filter: blur(130px); animation: floatOrb 14s infinite alternate ease-in-out; }
         .orb-1 { width: 500px; height: 500px; top: -120px; left: -120px; background: rgba(80, 0, 170, 0.18); }
         .orb-2 { width: 600px; height: 600px; bottom: -160px; right: -160px; background: rgba(176, 38, 255, 0.10); animation-delay: -7s; }
         @keyframes floatOrb { to { transform: translate(50px, 70px) scale(1.25); } }
 
-        /* ── Layout ── */
         .wrapper { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
 
-        /* ── Header ── */
         header {
             display: flex; justify-content: space-between; align-items: center;
             padding: 18px 28px;
@@ -62,11 +58,9 @@
         .live-dot { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
         .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); }
 
-        /* ── Main ── */
         main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px 80px; }
 
-        /* ── Hero ── */
-        .hero { text-align: center; max-width: 580px; margin-bottom: 48px; }
+        .hero { text-align: center; max-width: 580px; margin-bottom: 36px; }
         .hero-eyebrow {
             font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase;
             color: var(--accent); font-weight: 800; margin-bottom: 20px;
@@ -84,7 +78,24 @@
         }
         .hero p { color: var(--muted); font-size: 0.82rem; line-height: 1.8; max-width: 420px; margin: 0 auto; }
 
-        /* ── Steps tracker ── */
+        /* Estilo para la imagen anime */
+        .anime-showcase {
+            width: 100%;
+            max-width: 420px;
+            margin-bottom: 40px;
+            border: 2px solid var(--accent);
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 0 40px rgba(176, 38, 255, 0.35), 0 0 20px rgba(0, 0, 0, 0.8);
+            background: #000;
+        }
+        .anime-showcase img {
+            width: 100%;
+            height: auto;
+            display: block;
+            filter: contrast(1.1) saturate(1.1);
+        }
+
         .steps {
             display: flex; align-items: center; gap: 8px;
             margin-bottom: 36px;
@@ -103,7 +114,6 @@
         .step.done .step-circle { background: rgba(0,242,184,0.1); }
         .step-sep { color: rgba(255,255,255,0.1); font-size: 0.7rem; }
 
-        /* ── Card ── */
         .card {
             width: 100%; max-width: 520px;
             background: var(--surface);
@@ -113,7 +123,6 @@
             backdrop-filter: blur(16px);
         }
 
-        /* ── Drop zone ── */
         .dropzone {
             padding: 64px 32px;
             display: flex; flex-direction: column; align-items: center;
@@ -123,7 +132,6 @@
         .dropzone.drag { background: rgba(176,38,255,0.04); }
         .dropzone:hover { background: rgba(176,38,255,0.02); }
 
-        /* Animated corners */
         .corner { position: absolute; width: 16px; height: 16px; border-color: rgba(176,38,255,0.25); border-style: solid; transition: border-color 0.3s; }
         .dropzone:hover .corner, .dropzone.drag .corner { border-color: var(--accent); }
         .corner-tl { top: 14px; left: 14px; border-width: 1.5px 0 0 1.5px; }
@@ -148,7 +156,6 @@
         .dropzone.drag .drop-title { color: var(--accent); }
         .drop-sub { font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; }
 
-        /* ── File info ── */
         .file-info {
             border-bottom: 1px solid var(--border);
             padding: 20px 24px;
@@ -169,7 +176,6 @@
         }
         .file-clear:hover { color: var(--danger); }
 
-        /* ── Status row (processing indicator) ── */
         .status-row {
             padding: 10px 24px; border-bottom: 1px solid var(--border);
             display: none; align-items: center; gap: 10px;
@@ -184,7 +190,6 @@
         .dot:nth-child(3) { animation-delay: 0.4s; }
         @keyframes pulseDot { 0%,100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.2); } }
 
-        /* ── Auto-detect FPS badge ── */
         .fps-badge {
             display: none; align-items: center; gap: 8px;
             padding: 10px 24px; border-bottom: 1px solid var(--border);
@@ -193,7 +198,6 @@
         .fps-badge.show { display: flex; }
         .fps-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); flex-shrink: 0; }
 
-        /* ── Action button ── */
         .action-wrap { padding: 24px; display: none; }
         .btn-patch {
             width: 100%; height: 52px; border: none; cursor: pointer;
@@ -215,7 +219,6 @@
         .btn-patch:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
         .btn-patch span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
 
-        /* ── Processing ── */
         .proc-panel { padding: 40px 24px; text-align: center; display: none; position: relative; overflow: hidden; }
         .scan-line {
             position: absolute; top: 0; left: 0; right: 0; height: 2px;
@@ -238,9 +241,7 @@
         }
         .proc-sub { font-size: 0.62rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
 
-        /* ── Result ── */
         .result-panel { padding: 0; display: none; }
-
         .result-head {
             padding: 24px; border-bottom: 1px solid var(--border);
             display: flex; align-items: center; gap: 14px;
@@ -260,7 +261,6 @@
         .result-label.err { color: var(--danger); }
         .result-filename { font-size: 0.65rem; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; letter-spacing: 1px; }
 
-        /* ── Stats ── */
         .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
         .stat { padding: 18px 14px; text-align: center; border-right: 1px solid var(--border); }
         .stat:last-child { border-right: none; }
@@ -269,7 +269,6 @@
         .stat-val.accent { color: var(--accent); text-shadow: 0 0 12px rgba(176,38,255,0.5); }
         .stat-unit { font-size: 0.55rem; color: var(--muted); margin-top: 4px; letter-spacing: 2px; }
 
-        /* ── Result buttons ── */
         .result-btns { padding: 20px 24px; display: flex; gap: 12px; }
         .btn-dl {
             flex: 1; height: 48px; border: none; cursor: pointer;
@@ -295,14 +294,12 @@
             padding: 14px 16px; font-size: 0.72rem; color: rgba(255,100,120,0.75); line-height: 1.6; letter-spacing: 1px;
         }
 
-        /* ── How it works ── */
         .how { width: 100%; max-width: 520px; margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         .how-card { background: rgba(8,4,15,0.7); border: 1px solid var(--border); padding: 18px 14px; }
         .how-num { font-size: 1.1rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; opacity: 0.7; }
         .how-title { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
         .how-desc { font-size: 0.62rem; color: var(--muted); line-height: 1.6; }
 
-        /* ── Footer ── */
         footer { text-align: center; font-size: 0.58rem; color: var(--muted); letter-spacing: 4px; text-transform: uppercase; padding: 28px 20px; border-top: 1px solid var(--border); }
 
         @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
@@ -329,7 +326,12 @@
             <p>To really see the difference, I recommend exporting your video with the highest possible quality and frame rate so that it actually works 🗣️</p>
         </div>
 
-        <!-- Steps (3 steps like the Replit version) -->
+        <!-- 🖼️ IMAGEN DE ANIME AGREGADA -->
+        <div class="anime-showcase">
+            <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Anime Preview" onerror="this.style.display='none'">
+        </div>
+
+        <!-- Steps -->
         <div class="steps">
             <div class="step active" id="s1"><div class="step-circle">1</div>Upload</div>
             <div class="step-sep">›</div>
@@ -340,8 +342,6 @@
 
         <!-- Card -->
         <div class="card" id="card">
-
-            <!-- State: Drop -->
             <div class="dropzone" id="dropzone">
                 <div class="corner corner-tl"></div>
                 <div class="corner corner-tr"></div>
@@ -353,7 +353,6 @@
                 <div class="drop-sub">or click to browse · MP4 only · up to 500 MB</div>
             </div>
 
-            <!-- State: Ready — file info bar -->
             <div class="file-info" id="fileInfo">
                 <div class="file-thumb">🎬</div>
                 <div class="file-meta">
@@ -363,26 +362,22 @@
                 <button class="file-clear" id="clearBtn">✕</button>
             </div>
 
-            <!-- FPS auto-detect badge (no selector, just shows detected value) -->
             <div class="fps-badge" id="fpsBadge">
                 <div class="fps-badge-dot"></div>
                 <span id="fpsBadgeText">Detecting frame rate…</span>
             </div>
 
-            <!-- Processing status ticker (shows while patching) -->
             <div class="status-row" id="statusRow">
                 <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
                 <span id="statusTxt">Patching atoms…</span>
             </div>
 
-            <!-- Action button -->
             <div class="action-wrap" id="actionWrap">
                 <button class="btn-patch" id="patchBtn">
                     <span>⚡ Run Patch</span>
                 </button>
             </div>
 
-            <!-- State: Processing -->
             <div class="proc-panel" id="procPanel">
                 <div class="scan-line"></div>
                 <div class="proc-title">Processing</div>
@@ -391,9 +386,7 @@
                 <div class="proc-sub" id="procSub">Scanning MVHD / MDHD</div>
             </div>
 
-            <!-- State: Result -->
             <div class="result-panel" id="resultPanel"></div>
-
         </div>
 
         <!-- How it works -->
@@ -420,9 +413,6 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════
-//  PARTICLES
-// ═══════════════════════════════════════════════════
 const canvas = document.getElementById('canvas');
 const ctx = canvas.getContext('2d');
 let particles = [];
@@ -453,9 +443,6 @@ particles = mkParticles();
     requestAnimationFrame(loop);
 })();
 
-// ═══════════════════════════════════════════════════
-//  STATE
-// ═══════════════════════════════════════════════════
 let currentFile = null;
 let detectedFps  = null;
 let patchedBuffer = null;
@@ -463,9 +450,6 @@ let patchedAtoms = 0;
 
 const $ = id => document.getElementById(id);
 
-// ═══════════════════════════════════════════════════
-//  DROP ZONE
-// ═══════════════════════════════════════════════════
 $('dropzone').addEventListener('click', () => $('fileInput').click());
 $('dropzone').addEventListener('dragover',  e => { e.preventDefault(); $('dropzone').classList.add('drag'); });
 $('dropzone').addEventListener('dragleave', () => $('dropzone').classList.remove('drag'));
@@ -488,9 +472,6 @@ function loadFile(file) {
     autoDetectFps(file);
 }
 
-// ═══════════════════════════════════════════════════
-//  AUTO-DETECT FPS (no manual selector)
-// ═══════════════════════════════════════════════════
 async function autoDetectFps(file) {
     $('fpsBadge').classList.add('show');
     $('fpsBadgeText').textContent = 'Detecting frame rate…';
@@ -533,13 +514,11 @@ function detectFpsFromBuffer(bytes, view) {
         while (i < moov.end - 8) {
             const size = view.getUint32(i);
             if (size < 8 || i + size > moov.end) break;
-            // 'trak' = 116,114,97,107
             if (bytes[i+4]===116 && bytes[i+5]===114 && bytes[i+6]===97 && bytes[i+7]===107) {
                 const trak = { start: i, end: i + size };
                 const mdia = findBox(bytes, view, 'mdia', trak.start + 8, trak.end);
                 if (mdia) {
                     const hdlr = findBox(bytes, view, 'hdlr', mdia.start + 8, mdia.end);
-                    // 'vide' = 118,105,100,101
                     if (hdlr) {
                         const h = hdlr.start + 16;
                         if (bytes[h]===118 && bytes[h+1]===105 && bytes[h+2]===100 && bytes[h+3]===101) {
@@ -572,9 +551,6 @@ function detectFpsFromBuffer(bytes, view) {
     return null;
 }
 
-// ═══════════════════════════════════════════════════
-//  PATCH
-// ═══════════════════════════════════════════════════
 async function runPatch() {
     if (!currentFile) return;
     showState('processing');
@@ -633,9 +609,6 @@ function patchAtom(bytes, view, name, scaleFactor) {
     return count;
 }
 
-// ═══════════════════════════════════════════════════
-//  DOWNLOAD
-// ═══════════════════════════════════════════════════
 function downloadPatched() {
     if (!patchedBuffer || !currentFile) return;
     const url = URL.createObjectURL(new Blob([patchedBuffer], { type: 'video/mp4' }));
@@ -644,11 +617,7 @@ function downloadPatched() {
     setTimeout(() => URL.revokeObjectURL(url), 10000);
 }
 
-// ═══════════════════════════════════════════════════
-//  STATE MACHINE
-// ═══════════════════════════════════════════════════
 function showState(state, ok, errMsg) {
-    // Hide everything
     $('dropzone').style.display    = 'none';
     $('fileInfo').style.display    = 'none';
     $('fpsBadge').classList.remove('show');
