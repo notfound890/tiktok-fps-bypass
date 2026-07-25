@@ -1,851 +1,750 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>MASKA.DEV // ANIME EDITION STUDIO</title>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Space+Grotesk:wght@300;500;700;900&family=VT323&display=swap" rel="stylesheet">
+    <title>TikTok FPS Bypasser — MASKA.DEV</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700;800&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #030006;
-            --bg-gradient: radial-gradient(circle at 50% 0%, #150826 0%, #030006 70%);
-            --text-main: #fcf6f9;
-            --text-muted: #9b8da8;
-            --primary-accent: #b026ff;
-            --primary-accent-dim: rgba(176, 38, 255, 0.15);
-            --secondary-glow: #6800b3;
-            --border-dark: rgba(104, 0, 179, 0.25);
-            --card-bg: rgba(8, 4, 15, 0.9);
-            --accent-cyan: #00f2ff;
+            --bg: #030006;
+            --surface: rgba(8, 4, 15, 0.92);
+            --text: #fcf6f9;
+            --muted: #7a6a88;
+            --accent: #b026ff;
+            --accent-dim: rgba(176, 38, 255, 0.12);
+            --border: rgba(104, 0, 179, 0.28);
+            --success: #00f2b8;
+            --danger: #ff3b5c;
         }
 
-        [data-theme="light"] {
-            --bg-color: #f7f2fc;
-            --bg-gradient: linear-gradient(135deg, #f7f2fc 0%, #e2d2f4 100%);
-            --text-main: #180e29;
-            --text-muted: #6b5c7d;
-            --primary-accent: #8903d9;
-            --primary-accent-dim: rgba(137, 3, 217, 0.15);
-            --secondary-glow: #560bad;
-            --border-dark: #d5c4e8;
-            --card-bg: rgba(255, 255, 255, 0.9);
-            --accent-cyan: #0077ff;
-        }
-
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            outline: none;
-            -webkit-tap-highlight-color: transparent;
-            transition: background-color 0.6s cubic-bezier(0.16, 1, 0.3, 1), color 0.6s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.6s cubic-bezier(0.16, 1, 0.3, 1);
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
 
         body {
-            background-color: var(--bg-color);
-            background-image: var(--bg-gradient);
-            color: var(--text-main);
-            font-family: 'Space Grotesk', sans-serif;
-            line-height: 1.7;
-            overflow-x: hidden;
-            position: relative;
+            background: var(--bg);
+            color: var(--text);
+            font-family: 'JetBrains Mono', monospace;
             min-height: 100vh;
-            padding-bottom: 50px;
+            overflow-x: hidden;
         }
 
-        #particleCanvas {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -2;
-            pointer-events: none;
-        }
+        /* ── Particles ── */
+        #canvas { position: fixed; inset: 0; z-index: 0; pointer-events: none; width: 100%; height: 100%; }
 
-        .background-orbs {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            z-index: -1;
-            overflow: hidden;
-            pointer-events: none;
-        }
+        /* ── Orbs ── */
+        .orbs { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+        .orb { position: absolute; border-radius: 50%; filter: blur(130px); animation: floatOrb 14s infinite alternate ease-in-out; }
+        .orb-1 { width: 500px; height: 500px; top: -120px; left: -120px; background: rgba(80, 0, 170, 0.18); }
+        .orb-2 { width: 600px; height: 600px; bottom: -160px; right: -160px; background: rgba(176, 38, 255, 0.10); animation-delay: -7s; }
+        @keyframes floatOrb { to { transform: translate(50px, 70px) scale(1.25); } }
 
-        .orb {
-            position: absolute;
-            border-radius: 50%;
-            background: var(--primary-accent-dim);
-            filter: blur(120px);
-            animation: floatOrb 12s infinite alternate ease-in-out;
-        }
+        /* ── Layout ── */
+        .wrapper { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; }
 
-        .orb-1 {
-            width: 450px;
-            height: 450px;
-            top: -100px;
-            left: -100px;
-            background: rgba(84, 3, 173, 0.2);
-            animation-delay: 0s;
-        }
-
-        .orb-2 {
-            width: 550px;
-            height: 550px;
-            bottom: -150px;
-            right: -150px;
-            background: rgba(176, 38, 255, 0.1);
-            animation-delay: -6s;
-        }
-
-        @keyframes floatOrb {
-            0% { transform: translate(0, 0) scale(1); }
-            100% { transform: translate(40px, 60px) scale(1.2); }
-        }
-
+        /* ── Header ── */
         header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 24px 30px;
-            border-bottom: 1px solid var(--border-dark);
-            background: var(--card-bg);
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 18px 28px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(3, 0, 6, 0.85);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            position: sticky;
-            top: 0;
-            z-index: 100;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            position: sticky; top: 0; z-index: 100;
         }
-
-        .logo {
-            font-family: 'Syncopate', sans-serif;
-            font-weight: 700;
-            font-size: 1.2rem;
-            letter-spacing: -1px;
-            text-transform: uppercase;
+        .logo-wrap { display: flex; align-items: center; gap: 12px; }
+        .logo-icon {
+            width: 28px; height: 28px; position: relative;
+            background: linear-gradient(135deg, #b026ff, #6800b3);
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.75rem;
         }
+        .logo { font-size: 0.7rem; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: rgba(255,255,255,0.5); }
+        .logo span { color: var(--accent); text-shadow: 0 0 14px rgba(176,38,255,0.6); }
+        .live-dot { display: flex; align-items: center; gap: 6px; font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(255,255,255,0.2); }
+        .live-dot::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--success); box-shadow: 0 0 6px var(--success); }
 
-        .logo span {
-            color: var(--primary-accent);
-            text-shadow: 0 0 15px rgba(176, 38, 255, 0.6);
+        /* ── Main ── */
+        main { flex: 1; display: flex; flex-direction: column; align-items: center; padding: 60px 20px 80px; }
+
+        /* ── Hero ── */
+        .hero { text-align: center; max-width: 580px; margin-bottom: 48px; }
+        .hero-eyebrow {
+            font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase;
+            color: var(--accent); font-weight: 800; margin-bottom: 20px;
+            text-shadow: 0 0 10px rgba(176,38,255,0.5);
         }
-
-        .header-controls {
-            display: flex;
-            align-items: center;
-            gap: 20px;
-        }
-
-        .yin-yang-btn {
-            background: rgba(20, 10, 35, 0.8);
-            border: 2px solid var(--primary-accent);
-            color: var(--text-main);
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            box-shadow: 0 0 10px rgba(176, 38, 255, 0.3);
-            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.3s;
-        }
-
-        .yin-yang-btn:hover {
-            transform: rotate(180deg) scale(1.1);
-            box-shadow: 0 0 20px var(--primary-accent);
-        }
-
-        .menu-icon {
-            width: 26px;
-            height: 20px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-            cursor: pointer;
-        }
-
-        .menu-icon div {
-            width: 100%;
-            height: 2px;
-            background: var(--text-main);
-            border-radius: 2px;
-            box-shadow: 0 0 5px var(--primary-accent);
-        }
-
-        .view-section {
-            display: none;
-            animation: fadeInView 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-        }
-
-        .view-section.active {
-            display: block;
-        }
-
-        @keyframes fadeInView {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        .hero {
-            padding: 60px 24px 40px 24px;
-            text-align: center;
-            max-width: 700px;
-            margin: 0 auto;
-        }
-
-        .hero-sub {
-            font-size: 0.8rem;
-            letter-spacing: 4px;
-            color: var(--primary-accent);
-            text-transform: uppercase;
-            font-weight: 700;
-            margin-bottom: 16px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
-            text-shadow: 0 0 10px rgba(176, 38, 255, 0.4);
-        }
-
         .hero h1 {
-            font-size: 2.8rem;
-            font-weight: 900;
-            line-height: 1.15;
-            text-transform: uppercase;
-            margin-bottom: 24px;
-            color: var(--text-main);
-            text-shadow: 0 0 30px rgba(104, 0, 179, 0.6), 0 0 10px rgba(176, 38, 255, 0.4);
-            font-family: 'Space Grotesk', sans-serif;
+            font-size: clamp(2rem, 5.5vw, 3rem);
+            font-weight: 800; line-height: 1.12;
+            text-transform: uppercase; margin-bottom: 20px;
+            letter-spacing: -1px;
         }
-
-        .hero p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            max-width: 480px;
-            margin: 0 auto 40px auto;
-            line-height: 1.6;
+        .hero h1 .grad {
+            background: linear-gradient(90deg, #b026ff 0%, #d16bff 50%, #6800b3 100%);
+            -webkit-background-clip: text; -webkit-text-fill-color: transparent;
         }
+        .hero p { color: var(--muted); font-size: 0.82rem; line-height: 1.8; max-width: 420px; margin: 0 auto; }
 
-        .home-buttons {
-            max-width: 480px;
-            margin: 0 auto 50px auto;
-            padding: 0 24px;
-            display: flex;
-            flex-direction: column;
-            gap: 20px;
+        /* ── Steps tracker ── */
+        .steps {
+            display: flex; align-items: center; gap: 8px;
+            margin-bottom: 36px;
+            font-size: 0.6rem; letter-spacing: 3px; text-transform: uppercase;
         }
-
-        .btn-main {
-            background: linear-gradient(135deg, #1f0b36 0%, #0d041a 100%);
-            color: var(--text-main);
-            border: 1px solid var(--primary-accent);
-            padding: 18px 24px;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 12px;
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.25), inset 0 0 15px rgba(104, 0, 179, 0.2);
-            transition: all 0.3s ease;
+        .step { display: flex; align-items: center; gap: 7px; color: rgba(255,255,255,0.2); transition: color 0.4s; }
+        .step.active { color: var(--text); }
+        .step.done { color: var(--success); }
+        .step-circle {
+            width: 20px; height: 20px; border-radius: 50%;
+            border: 1px solid currentColor;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 0.6rem; font-weight: 800;
         }
+        .step.active .step-circle { background: rgba(255,255,255,0.08); }
+        .step.done .step-circle { background: rgba(0,242,184,0.1); }
+        .step-sep { color: rgba(255,255,255,0.1); font-size: 0.7rem; }
 
-        .btn-main:hover {
-            background: linear-gradient(135deg, #321159 0%, #150826 100%);
-            box-shadow: 0 0 30px rgba(176, 38, 255, 0.5), inset 0 0 20px rgba(176, 38, 255, 0.3);
-            border-color: #d16bff;
-            transform: translateY(-2px);
-        }
-
-        .btn-main:active {
-            transform: scale(0.98);
-        }
-
-        .btn-outline {
-            background: rgba(10, 5, 18, 0.6);
-            color: var(--text-main);
-            border: 1px solid var(--border-dark);
-            padding: 18px 24px;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.9rem;
-            letter-spacing: 2px;
-            cursor: pointer;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
-        }
-
-        .btn-outline:hover {
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 15px rgba(176, 38, 255, 0.2);
-        }
-
-        .hero-image-box {
-            max-width: 540px;
-            margin: 0 auto;
-            padding: 0 24px;
-        }
-
-        .hero-image-container {
-            border: 2px solid var(--primary-accent);
-            border-radius: 18px;
+        /* ── Card ── */
+        .card {
+            width: 100%; max-width: 520px;
+            background: var(--surface);
+            border: 1px solid var(--border);
             overflow: hidden;
-            position: relative;
-            box-shadow: 0 0 50px rgba(176, 38, 255, 0.35), 0 0 20px rgba(0, 0, 0, 0.8);
-            background: #000;
-            animation: floatImage 6s ease-in-out infinite alternate;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7), inset 0 1px 0 rgba(176,38,255,0.08);
+            backdrop-filter: blur(16px);
         }
 
-        @keyframes floatImage {
-            0% { transform: translateY(0); }
-            100% { transform: translateY(-10px); }
+        /* ── Drop zone ── */
+        .dropzone {
+            padding: 64px 32px;
+            display: flex; flex-direction: column; align-items: center;
+            cursor: pointer; transition: all 0.3s; position: relative;
+            min-height: 300px; justify-content: center;
         }
+        .dropzone.drag { background: rgba(176,38,255,0.04); }
+        .dropzone:hover { background: rgba(176,38,255,0.02); }
 
-        .hero-image-container img {
-            width: 100%;
-            height: auto;
-            display: block;
-            filter: contrast(1.15) saturate(1.15);
+        /* Animated corners */
+        .corner { position: absolute; width: 16px; height: 16px; border-color: rgba(176,38,255,0.25); border-style: solid; transition: border-color 0.3s; }
+        .dropzone:hover .corner, .dropzone.drag .corner { border-color: var(--accent); }
+        .corner-tl { top: 14px; left: 14px; border-width: 1.5px 0 0 1.5px; }
+        .corner-tr { top: 14px; right: 14px; border-width: 1.5px 1.5px 0 0; }
+        .corner-bl { bottom: 14px; left: 14px; border-width: 0 0 1.5px 1.5px; }
+        .corner-br { bottom: 14px; right: 14px; border-width: 0 1.5px 1.5px 0; }
+
+        .drop-icon-wrap {
+            width: 64px; height: 64px; border-radius: 50%; margin-bottom: 24px;
+            display: flex; align-items: center; justify-content: center;
+            background: rgba(176,38,255,0.06); border: 1px solid rgba(176,38,255,0.15);
+            transition: all 0.3s; font-size: 1.6rem;
         }
-
-        .image-error-fallback {
-            padding: 40px 20px;
-            text-align: center;
-            background: rgba(176, 38, 255, 0.05);
-            color: var(--text-muted);
-            font-size: 0.85rem;
+        .dropzone:hover .drop-icon-wrap, .dropzone.drag .drop-icon-wrap {
+            background: rgba(176,38,255,0.12); border-color: rgba(176,38,255,0.4);
+            box-shadow: 0 0 20px rgba(176,38,255,0.2);
         }
-
-        .image-error-fallback span {
-            color: var(--primary-accent);
-            font-weight: bold;
-            display: block;
-            margin-bottom: 8px;
+        .drop-title {
+            font-size: 0.8rem; font-weight: 800; text-transform: uppercase;
+            letter-spacing: 3px; margin-bottom: 8px; transition: color 0.3s;
         }
+        .dropzone.drag .drop-title { color: var(--accent); }
+        .drop-sub { font-size: 0.65rem; color: var(--muted); letter-spacing: 2px; }
 
-        .studio-container {
-            max-width: 600px;
-            margin: 0 auto;
-            padding: 30px 24px;
+        /* ── File info ── */
+        .file-info {
+            border-bottom: 1px solid var(--border);
+            padding: 20px 24px;
+            display: none; align-items: center; gap: 14px;
         }
-
-        .back-nav {
-            margin-bottom: 30px;
+        .file-thumb {
+            width: 40px; height: 40px; flex-shrink: 0;
+            background: rgba(176,38,255,0.1); border: 1px solid rgba(176,38,255,0.2);
+            display: flex; align-items: center; justify-content: center; font-size: 1rem;
         }
-
-        .back-btn {
-            background: none;
-            border: none;
-            color: var(--text-muted);
-            font-weight: 700;
-            text-transform: uppercase;
-            font-size: 0.85rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            letter-spacing: 1px;
-            transition: color 0.3s;
+        .file-meta { flex: 1; min-width: 0; }
+        .file-name { font-size: 0.78rem; font-weight: 700; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+        .file-size { font-size: 0.65rem; color: var(--muted); margin-top: 3px; letter-spacing: 2px; }
+        .file-clear {
+            background: none; border: none; cursor: pointer;
+            color: var(--muted); font-size: 0.9rem; padding: 4px;
+            transition: color 0.2s; font-family: inherit;
         }
+        .file-clear:hover { color: var(--danger); }
 
-        .back-btn:hover {
-            color: var(--primary-accent);
-            text-shadow: 0 0 10px rgba(176, 38, 255, 0.5);
+        /* ── Status row (processing indicator) ── */
+        .status-row {
+            padding: 10px 24px; border-bottom: 1px solid var(--border);
+            display: none; align-items: center; gap: 10px;
+            font-size: 0.62rem; letter-spacing: 3px; text-transform: uppercase; color: rgba(176,38,255,0.7);
         }
-
-        .step-wrapper {
-            margin-bottom: 45px;
-            background: var(--card-bg);
-            border: 1px solid var(--border-dark);
-            border-radius: 20px;
-            padding: 30px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.6), inset 0 1px 0 rgba(176, 38, 255, 0.1);
-            backdrop-filter: blur(15px);
-            position: relative;
-            overflow: hidden;
-            transition: all 0.4s ease;
+        .dots { display: flex; gap: 4px; }
+        .dot {
+            width: 5px; height: 5px; border-radius: 50%; background: var(--accent);
+            animation: pulseDot 1.2s ease-in-out infinite;
         }
+        .dot:nth-child(2) { animation-delay: 0.2s; }
+        .dot:nth-child(3) { animation-delay: 0.4s; }
+        @keyframes pulseDot { 0%,100% { opacity: 0.2; transform: scale(0.7); } 50% { opacity: 1; transform: scale(1.2); } }
 
-        .step-wrapper::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 4px;
-            height: 100%;
-            background: linear-gradient(to bottom, var(--primary-accent), transparent);
+        /* ── Auto-detect FPS badge ── */
+        .fps-badge {
+            display: none; align-items: center; gap: 8px;
+            padding: 10px 24px; border-bottom: 1px solid var(--border);
+            font-size: 0.62rem; letter-spacing: 2px; text-transform: uppercase; color: var(--success);
         }
+        .fps-badge.show { display: flex; }
+        .fps-badge-dot { width: 5px; height: 5px; border-radius: 50%; background: var(--success); box-shadow: 0 0 8px var(--success); flex-shrink: 0; }
 
-        .step-wrapper.locked {
-            opacity: 0.45;
-            filter: grayscale(0.8);
-            pointer-events: none;
-            border-color: rgba(100, 100, 100, 0.2);
-        }
-
-        .step-wrapper.locked::after {
-            content: '🔒 BLOQUEADO (COMPLETA EL PASO ANTERIOR)';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(5, 2, 10, 0.95);
-            color: var(--primary-accent);
-            padding: 12px 20px;
-            font-size: 0.75rem;
-            font-weight: 800;
-            letter-spacing: 2px;
-            border-radius: 8px;
-            border: 1px solid var(--primary-accent);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.4);
-            pointer-events: none;
-            text-align: center;
-            z-index: 10;
-        }
-
-        .step-header {
-            display: flex;
-            align-items: center;
-            margin-bottom: 20px;
-        }
-
-        .step-num {
-            font-family: 'VT323', monospace;
-            font-size: 1.3rem;
-            font-weight: 800;
-            color: var(--primary-accent);
-            width: 44px;
-            height: 44px;
-            background-color: #05020a;
-            border: 1px solid var(--border-dark);
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-right: 15px;
-            flex-shrink: 0;
-            box-shadow: 0 0 10px rgba(176, 38, 255, 0.2);
-        }
-
-        .step-title-area h2 {
-            font-size: 1.2rem;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: 3px;
-        }
-
-        .step-title-area p {
-            font-size: 0.75rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 1.5px;
-        }
-
-        .upload-zone {
-            background: rgba(10, 4, 18, 0.6);
-            border: 2px dashed var(--border-dark);
-            border-radius: 14px;
-            padding: 40px 20px;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-
-        .upload-zone:hover {
-            border-color: var(--primary-accent);
-            background: var(--primary-accent-dim);
-            box-shadow: 0 0 20px rgba(176, 38, 255, 0.15);
-        }
-
-        .upload-zone h3 {
-            font-size: 1.05rem;
-            margin-bottom: 8px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .upload-zone p {
-            font-size: 0.8rem;
-            color: var(--text-muted);
-            margin-bottom: 24px;
-        }
-
-        .file-btn {
-            background: linear-gradient(135deg, #321159 0%, #150826 100%);
+        /* ── Action button ── */
+        .action-wrap { padding: 24px; display: none; }
+        .btn-patch {
+            width: 100%; height: 52px; border: none; cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.82rem; font-weight: 800; letter-spacing: 4px;
+            text-transform: uppercase; transition: all 0.3s; position: relative; overflow: hidden;
+            background: linear-gradient(90deg, #4a00a0, #8a00d4, #b026ff);
             color: white;
-            border: 1px solid var(--primary-accent);
-            padding: 12px 28px;
-            border-radius: 24px;
-            font-weight: 800;
-            text-transform: uppercase;
-            font-size: 0.8rem;
-            letter-spacing: 1.5px;
-            cursor: pointer;
-            box-shadow: 0 0 15px rgba(176, 38, 255, 0.3);
-            transition: all 0.3s;
+            box-shadow: 0 0 24px rgba(176,38,255,0.35);
+            display: flex; align-items: center; justify-content: center; gap: 10px;
+        }
+        .btn-patch::after {
+            content: ''; position: absolute; inset: 0;
+            background: linear-gradient(90deg, #b026ff, #8a00d4, #4a00a0);
+            opacity: 0; transition: opacity 0.35s;
+        }
+        .btn-patch:hover::after { opacity: 1; }
+        .btn-patch:hover { box-shadow: 0 0 40px rgba(176,38,255,0.55); transform: translateY(-1px); }
+        .btn-patch:disabled { opacity: 0.45; cursor: not-allowed; transform: none; }
+        .btn-patch span { position: relative; z-index: 1; display: flex; align-items: center; gap: 8px; }
+
+        /* ── Processing ── */
+        .proc-panel { padding: 40px 24px; text-align: center; display: none; position: relative; overflow: hidden; }
+        .scan-line {
+            position: absolute; top: 0; left: 0; right: 0; height: 2px;
+            background: var(--accent); box-shadow: 0 0 14px var(--accent);
+            animation: scanLine 2s ease-in-out infinite;
+        }
+        @keyframes scanLine {
+            0% { transform: translateY(-2px); opacity: 0; }
+            30% { opacity: 1; }
+            100% { transform: translateY(200px); opacity: 0; }
+        }
+        .proc-title { font-size: 0.65rem; letter-spacing: 5px; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; font-weight: 800; }
+        .proc-status-txt { font-size: 1.4rem; font-weight: 800; margin-bottom: 24px; letter-spacing: 1px; }
+        .prog-bar { width: 100%; height: 3px; background: rgba(255,255,255,0.05); margin-bottom: 14px; }
+        .prog-fill {
+            height: 100%; width: 0%;
+            background: linear-gradient(90deg, #6800b3, #b026ff, #d16bff);
+            box-shadow: 0 0 10px var(--accent);
+            transition: width 0.5s ease;
+        }
+        .proc-sub { font-size: 0.62rem; color: var(--muted); letter-spacing: 3px; text-transform: uppercase; }
+
+        /* ── Result ── */
+        .result-panel { padding: 0; display: none; }
+
+        .result-head {
+            padding: 24px; border-bottom: 1px solid var(--border);
+            display: flex; align-items: center; gap: 14px;
+            position: relative; overflow: hidden;
+        }
+        .result-head.ok { background: linear-gradient(135deg, rgba(0,242,184,0.04) 0%, transparent 60%); }
+        .result-head.err { background: rgba(255,59,92,0.03); }
+        .result-head-icon {
+            width: 42px; height: 42px; flex-shrink: 0;
+            display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+            border: 1px solid;
+        }
+        .result-head-icon.ok { border-color: rgba(0,242,184,0.3); background: rgba(0,242,184,0.08); }
+        .result-head-icon.err { border-color: rgba(255,59,92,0.3); background: rgba(255,59,92,0.08); }
+        .result-label { font-size: 0.7rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; }
+        .result-label.ok { color: var(--success); }
+        .result-label.err { color: var(--danger); }
+        .result-filename { font-size: 0.65rem; color: var(--muted); margin-top: 4px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 300px; letter-spacing: 1px; }
+
+        /* ── Stats ── */
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); border-bottom: 1px solid var(--border); }
+        .stat { padding: 18px 14px; text-align: center; border-right: 1px solid var(--border); }
+        .stat:last-child { border-right: none; }
+        .stat-label { font-size: 0.55rem; text-transform: uppercase; letter-spacing: 3px; color: var(--muted); margin-bottom: 8px; }
+        .stat-val { font-size: 1.5rem; font-weight: 800; line-height: 1; color: var(--text); }
+        .stat-val.accent { color: var(--accent); text-shadow: 0 0 12px rgba(176,38,255,0.5); }
+        .stat-unit { font-size: 0.55rem; color: var(--muted); margin-top: 4px; letter-spacing: 2px; }
+
+        /* ── Result buttons ── */
+        .result-btns { padding: 20px 24px; display: flex; gap: 12px; }
+        .btn-dl {
+            flex: 1; height: 48px; border: none; cursor: pointer;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem; font-weight: 800; letter-spacing: 3px; text-transform: uppercase;
+            background: linear-gradient(90deg, #4a00a0, #b026ff);
+            color: white; box-shadow: 0 0 20px rgba(176,38,255,0.3);
+            transition: all 0.3s; display: flex; align-items: center; justify-content: center; gap: 8px;
+        }
+        .btn-dl:hover { box-shadow: 0 0 35px rgba(176,38,255,0.55); transform: translateY(-1px); }
+        .btn-again {
+            height: 48px; padding: 0 20px; cursor: pointer;
+            font-family: 'JetBrains Mono', monospace; font-size: 0.7rem;
+            font-weight: 700; letter-spacing: 3px; text-transform: uppercase;
+            background: none; color: var(--muted); border: 1px solid var(--border);
+            transition: all 0.2s;
+        }
+        .btn-again:hover { color: var(--text); border-color: rgba(176,38,255,0.4); }
+
+        .err-msg {
+            margin: 0 24px 20px;
+            background: rgba(255,59,92,0.05); border: 1px solid rgba(255,59,92,0.15);
+            padding: 14px 16px; font-size: 0.72rem; color: rgba(255,100,120,0.75); line-height: 1.6; letter-spacing: 1px;
         }
 
-        .file-btn:hover {
-            box-shadow: 0 0 25px rgba(176, 38, 255, 0.6);
-        }
+        /* ── How it works ── */
+        .how { width: 100%; max-width: 520px; margin-top: 36px; display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+        .how-card { background: rgba(8,4,15,0.7); border: 1px solid var(--border); padding: 18px 14px; }
+        .how-num { font-size: 1.1rem; font-weight: 800; color: var(--accent); margin-bottom: 8px; opacity: 0.7; }
+        .how-title { font-size: 0.65rem; font-weight: 800; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 6px; }
+        .how-desc { font-size: 0.62rem; color: var(--muted); line-height: 1.6; }
 
-        .options-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-        }
+        /* ── Footer ── */
+        footer { text-align: center; font-size: 0.58rem; color: var(--muted); letter-spacing: 4px; text-transform: uppercase; padding: 28px 20px; border-top: 1px solid var(--border); }
 
-        .option-pill {
-            background: rgba(10, 4, 18, 0.6);
-            border: 1px solid var(--border-dark);
-            padding: 18px;
-            border-radius: 14px;
-            text-align: center;
-            font-size: 0.8rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            cursor: pointer;
-            transition: all 0.25s;
-            letter-spacing: 1px;
-        }
-
-        .option-pill.active, .option-pill:hover {
-            background: linear-gradient(135deg, #2d0e4f 0%, #120521 100%);
-            color: var(--text-main);
-            border-color: var(--primary-accent);
-            box-shadow: 0 0 15px rgba(176, 38, 255, 0.3);
-        }
-
-        .render-box {
-            background: rgba(10, 4, 18, 0.6);
-            border: 1px solid var(--border-dark);
-            border-radius: 14px;
-            padding: 24px;
-            text-align: center;
-        }
-
-        .status-info {
-            font-family: 'VT323', monospace;
-            font-size: 1.2rem;
-            margin-bottom: 15px;
-            display: flex;
-            justify-content: space-between;
-            color: var(--text-muted);
-        }
-
-        .status-value {
-            color: var(--accent-cyan);
-            font-weight: 700;
-            text-shadow: 0 0 8px rgba(0, 242, 255, 0.5);
-        }
-
-        .progress-bar {
-            width: 100%;
-            height: 6px;
-            background-color: #05020a;
-            border-radius: 3px;
-            overflow: hidden;
-            margin-bottom: 20px;
-            border: 1px solid rgba(176, 38, 255, 0.2);
-        }
-
-        .progress-fill {
-            width: 0%;
-            height: 100%;
-            background: linear-gradient(90deg, var(--secondary-glow), var(--primary-accent));
-            box-shadow: 0 0 10px var(--primary-accent);
-            transition: width 0.4s ease;
-        }
-
-        footer {
-            text-align: center;
-            font-size: 0.75rem;
-            opacity: 0.6;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            padding: 40px 24px;
-            border-top: 1px solid var(--border-dark);
-            margin-top: 50px;
-            background: rgba(3, 0, 6, 0.5);
-        }
+        @media (max-width: 480px) { .how { grid-template-columns: 1fr; } }
     </style>
 </head>
-<body data-theme="dark">
+<body>
+<canvas id="canvas"></canvas>
+<div class="orbs"><div class="orb orb-1"></div><div class="orb orb-2"></div></div>
 
-    <canvas id="particleCanvas"></canvas>
-
-    <div class="background-orbs">
-        <div class="orb orb-1"></div>
-        <div class="orb orb-2"></div>
-    </div>
-
+<div class="wrapper">
     <header>
-        <div class="logo">MASKA<span>.DEV</span></div>
-        <div class="header-controls">
-            <button class="yin-yang-btn" id="themeToggle" onclick="toggleTheme()" title="Cambiar Tema">☯</button>
-            <div class="menu-icon">
-                <div></div>
-                <div></div>
-                <div></div>
-            </div>
+        <div class="logo-wrap">
+            <div class="logo-icon">⚡</div>
+            <div class="logo">MASKA<span>.DEV</span></div>
         </div>
+        <div class="live-dot">Live</div>
     </header>
 
-    <section id="homeView" class="view-section active">
+    <main>
+        <!-- Hero -->
         <div class="hero">
-            <div class="hero-sub">⚡ World-Class Editing Toolkit</div>
-            <h1>EDIT. RENDER. CONQUER.</h1>
-            <p>Maska.Dev is the all-in-one toolkit for editors and producers — built to <strong>lead</strong>.</p>
+            <div class="hero-eyebrow">⚡ Metadata Atom Patcher</div>
+            <h1><span class="grad">Upload Once.</span><br>Stay Sharp.</h1>
+            <p>Patches your MP4 atoms so TikTok's encoder reads it as 30 fps — less aggressive compression, better output quality. Zero re-encode. Instant.</p>
         </div>
 
-        <div class="home-buttons">
-            <button class="btn-main" onclick="switchView('studio')">
-                ⚡ Launch the Studio
-            </button>
-            <button class="btn-outline" onclick="alert('Explorando recursos adicionales...')">
-                <span>Browse Resources</span>
-                <span>→</span>
-            </button>
+        <!-- Steps (3 steps like the Replit version) -->
+        <div class="steps">
+            <div class="step active" id="s1"><div class="step-circle">1</div>Upload</div>
+            <div class="step-sep">›</div>
+            <div class="step" id="s2"><div class="step-circle">2</div>Patch</div>
+            <div class="step-sep">›</div>
+            <div class="step" id="s3"><div class="step-circle">3</div>Download</div>
         </div>
 
-        <div class="hero-image-box">
-            <div class="hero-image-container">
-                <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Imagen" onerror="this.style.display='none'; document.getElementById('fallbackMsg').style.display='block';">
-                <div id="fallbackMsg" class="image-error-fallback" style="display: none;">
-                    <span>⚠️ Imagen no encontrada</span>
-                    Sube la foto a tu repositorio con el nombre exacto:<br><strong>503b650047bc2e1d89bc29ef09d912bf.jpg</strong>
+        <!-- Card -->
+        <div class="card" id="card">
+
+            <!-- State: Drop -->
+            <div class="dropzone" id="dropzone">
+                <div class="corner corner-tl"></div>
+                <div class="corner corner-tr"></div>
+                <div class="corner corner-bl"></div>
+                <div class="corner corner-br"></div>
+                <input type="file" id="fileInput" accept="video/mp4" style="display:none">
+                <div class="drop-icon-wrap">📹</div>
+                <div class="drop-title" id="dropTitle">Drop your video here</div>
+                <div class="drop-sub">or click to browse · MP4 only · up to 500 MB</div>
+            </div>
+
+            <!-- State: Ready — file info bar -->
+            <div class="file-info" id="fileInfo">
+                <div class="file-thumb">🎬</div>
+                <div class="file-meta">
+                    <div class="file-name" id="fileName">video.mp4</div>
+                    <div class="file-size" id="fileSize">—</div>
                 </div>
+                <button class="file-clear" id="clearBtn">✕</button>
+            </div>
+
+            <!-- FPS auto-detect badge (no selector, just shows detected value) -->
+            <div class="fps-badge" id="fpsBadge">
+                <div class="fps-badge-dot"></div>
+                <span id="fpsBadgeText">Detecting frame rate…</span>
+            </div>
+
+            <!-- Processing status ticker (shows while patching) -->
+            <div class="status-row" id="statusRow">
+                <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                <span id="statusTxt">Patching atoms…</span>
+            </div>
+
+            <!-- Action button -->
+            <div class="action-wrap" id="actionWrap">
+                <button class="btn-patch" id="patchBtn">
+                    <span>⚡ Run Patch</span>
+                </button>
+            </div>
+
+            <!-- State: Processing -->
+            <div class="proc-panel" id="procPanel">
+                <div class="scan-line"></div>
+                <div class="proc-title">Processing</div>
+                <div class="proc-status-txt" id="procStatusTxt">Reading atoms…</div>
+                <div class="prog-bar"><div class="prog-fill" id="progFill"></div></div>
+                <div class="proc-sub" id="procSub">Scanning MVHD / MDHD</div>
+            </div>
+
+            <!-- State: Result -->
+            <div class="result-panel" id="resultPanel"></div>
+
+        </div>
+
+        <!-- How it works -->
+        <div class="how" id="howSection">
+            <div class="how-card">
+                <div class="how-num">①</div>
+                <div class="how-title">Detects FPS</div>
+                <div class="how-desc">Reads your video's real frame rate directly from the MP4 stts atom.</div>
+            </div>
+            <div class="how-card">
+                <div class="how-num">②</div>
+                <div class="how-title">Patches Atoms</div>
+                <div class="how-desc">Rewrites mvhd & mdhd timescale fields so TikTok reads 30 fps.</div>
+            </div>
+            <div class="how-card">
+                <div class="how-num">③</div>
+                <div class="how-title">Zero Re-encode</div>
+                <div class="how-desc">Only metadata is touched. Pixel data is untouched — instant & lossless.</div>
             </div>
         </div>
-    </section>
+    </main>
 
-    <section id="studioView" class="view-section">
-        <div class="studio-container">
-            <div class="back-nav">
-                <button class="back-btn" onclick="switchView('home')">← Volver al Inicio</button>
-            </div>
+    <footer>MASKA.DEV &copy; 2026 // TikTok FPS Bypasser // Runs entirely in your browser</footer>
+</div>
 
-            <!-- PASO 1 -->
-            <div class="step-wrapper" id="step1">
-                <div class="step-header">
-                    <div class="step-num">01</div>
-                    <div class="step-title-area">
-                        <h2>Upload Clip</h2>
-                        <p>Selecciona tu archivo de video fuente</p>
-                    </div>
-                </div>
-                <div class="upload-zone" onclick="document.getElementById('fileInput').click();">
-                    <h3 id="fileNameText">Drop your clip</h3>
-                    <p>MP4, MOV, WEBM — Máxima calidad de fotogramas</p>
-                    <button class="file-btn">Browse File</button>
-                    <input type="file" id="fileInput" style="display: none;" accept="video/*" onchange="handleFileSelect(event)">
-                </div>
-            </div>
+<script>
+// ═══════════════════════════════════════════════════
+//  PARTICLES
+// ═══════════════════════════════════════════════════
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
+let particles = [];
 
-            <!-- PASO 2 -->
-            <div class="step-wrapper locked" id="step2">
-                <div class="step-header">
-                    <div class="step-num">02</div>
-                    <div class="step-title-area">
-                        <h2>Target FPS Pipeline</h2>
-                        <p>Elige la tasa de fluidez del motor</p>
-                    </div>
-                </div>
-                <div class="options-grid">
-                    <div class="option-pill active" onclick="selectOption(this, '60')">60 FPS Stable</div>
-                    <div class="option-pill" onclick="selectOption(this, '120')">120 FPS Ultra</div>
-                </div>
-            </div>
+function resizeCanvas() { canvas.width = innerWidth; canvas.height = innerHeight; }
+window.addEventListener('resize', () => { resizeCanvas(); particles = mkParticles(); });
+resizeCanvas();
 
-            <!-- PASO 3 -->
-            <div class="step-wrapper locked" id="step3">
-                <div class="step-header">
-                    <div class="step-num">03</div>
-                    <div class="step-title-area">
-                        <h2>Render & Atom Patching</h2>
-                        <p>Modificación de metadatos (Timescale bypass)</p>
-                    </div>
-                </div>
-                <div class="render-box">
-                    <div class="status-info">
-                        <span>STATUS</span>
-                        <span class="status-value" id="renderStatus">READY</span>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress-fill" id="progressFill"></div>
-                    </div>
-                    <button class="btn-main" style="width:100%; margin-top:15px;" onclick="startRenderProcess()">Ejecutar Patcher</button>
-                </div>
-            </div>
+function mkParticles() {
+    return Array.from({ length: Math.floor((canvas.width * canvas.height) / 14000) }, () => ({
+        x: Math.random() * canvas.width, y: Math.random() * canvas.height,
+        r: Math.random() * 2 + 0.4,
+        vx: (Math.random() - 0.5) * 0.5, vy: (Math.random() - 0.5) * 0.5 - 0.15,
+        o: Math.random() * 0.4 + 0.1,
+    }));
+}
+particles = mkParticles();
 
-            <!-- PASO 4 -->
-            <div class="step-wrapper locked" id="step4">
-                <div class="step-header">
-                    <div class="step-num">04</div>
-                    <div class="step-title-area">
-                        <h2>Export Output</h2>
-                        <p>Descarga tu archivo optimizado para TikTok</p>
-                    </div>
-                </div>
-                <div class="render-box" style="text-align: center;">
-                    <p style="color: var(--text-muted); font-size: 0.85rem; margin-bottom: 20px;">Los átomos mvhd/mdhd han sido ajustados correctamente.</p>
-                    <button class="btn-main" id="downloadBtn" style="width:100%;" onclick="downloadPatchedFile()">⬇ Descargar Video Parcheado</button>
-                </div>
+(function loop() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (const p of particles) {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > canvas.width) p.vx = -p.vx;
+        if (p.y < 0 || p.y > canvas.height) p.y = canvas.height;
+        ctx.beginPath(); ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = `rgba(176,38,255,${p.o})`; ctx.fill();
+    }
+    requestAnimationFrame(loop);
+})();
+
+// ═══════════════════════════════════════════════════
+//  STATE
+// ═══════════════════════════════════════════════════
+let currentFile = null;
+let detectedFps  = null;
+let patchedBuffer = null;
+let patchedAtoms = 0;
+
+const $ = id => document.getElementById(id);
+
+// ═══════════════════════════════════════════════════
+//  DROP ZONE
+// ═══════════════════════════════════════════════════
+$('dropzone').addEventListener('click', () => $('fileInput').click());
+$('dropzone').addEventListener('dragover',  e => { e.preventDefault(); $('dropzone').classList.add('drag'); });
+$('dropzone').addEventListener('dragleave', () => $('dropzone').classList.remove('drag'));
+$('dropzone').addEventListener('drop', e => {
+    e.preventDefault(); $('dropzone').classList.remove('drag');
+    const f = e.dataTransfer.files[0]; if (f) loadFile(f);
+});
+$('fileInput').addEventListener('change', e => { if (e.target.files[0]) loadFile(e.target.files[0]); });
+$('clearBtn').addEventListener('click', () => { currentFile = null; showState('drop'); });
+$('patchBtn').addEventListener('click', runPatch);
+
+function loadFile(file) {
+    if (!file.name.toLowerCase().endsWith('.mp4') && file.type !== 'video/mp4') {
+        alert('Only MP4 files are supported.'); return;
+    }
+    currentFile = file;
+    $('fileName').textContent = file.name;
+    $('fileSize').textContent = fmtBytes(file.size);
+    showState('ready');
+    autoDetectFps(file);
+}
+
+// ═══════════════════════════════════════════════════
+//  AUTO-DETECT FPS (no manual selector)
+// ═══════════════════════════════════════════════════
+async function autoDetectFps(file) {
+    $('fpsBadge').classList.add('show');
+    $('fpsBadgeText').textContent = 'Detecting frame rate…';
+    try {
+        const slice = file.slice(0, Math.min(file.size, 10 * 1024 * 1024));
+        const buf   = await slice.arrayBuffer();
+        const bytes = new Uint8Array(buf);
+        const view  = new DataView(buf);
+        const fps   = detectFpsFromBuffer(bytes, view);
+        if (fps && fps > 1 && fps < 500) {
+            detectedFps = fps;
+            $('fpsBadgeText').textContent = `Auto-detected: ${fps.toFixed(2)} fps`;
+        } else {
+            detectedFps = 60;
+            $('fpsBadgeText').textContent = 'Could not detect FPS — defaulting to 60';
+        }
+    } catch (_) {
+        detectedFps = 60;
+        $('fpsBadgeText').textContent = 'Could not detect FPS — defaulting to 60';
+    }
+}
+
+function findBox(bytes, view, name, start, end) {
+    const e = new TextEncoder().encode(name);
+    let i = start;
+    while (i < end - 8) {
+        const size = view.getUint32(i);
+        if (size < 8 || i + size > end) break;
+        if (bytes[i+4]===e[0] && bytes[i+5]===e[1] && bytes[i+6]===e[2] && bytes[i+7]===e[3]) return { start: i, end: i + size };
+        i += size;
+    }
+    return null;
+}
+
+function detectFpsFromBuffer(bytes, view) {
+    try {
+        const moov = findBox(bytes, view, 'moov', 0, bytes.length);
+        if (!moov) return null;
+        let i = moov.start + 8;
+        while (i < moov.end - 8) {
+            const size = view.getUint32(i);
+            if (size < 8 || i + size > moov.end) break;
+            // 'trak' = 116,114,97,107
+            if (bytes[i+4]===116 && bytes[i+5]===114 && bytes[i+6]===97 && bytes[i+7]===107) {
+                const trak = { start: i, end: i + size };
+                const mdia = findBox(bytes, view, 'mdia', trak.start + 8, trak.end);
+                if (mdia) {
+                    const hdlr = findBox(bytes, view, 'hdlr', mdia.start + 8, mdia.end);
+                    // 'vide' = 118,105,100,101
+                    if (hdlr) {
+                        const h = hdlr.start + 16;
+                        if (bytes[h]===118 && bytes[h+1]===105 && bytes[h+2]===100 && bytes[h+3]===101) {
+                            const mdhd = findBox(bytes, view, 'mdhd', mdia.start + 8, mdia.end);
+                            const minf = findBox(bytes, view, 'minf', mdia.start + 8, mdia.end);
+                            if (mdhd && minf) {
+                                const ver = bytes[mdhd.start + 8];
+                                let ts, dur;
+                                if (ver === 0) { ts = view.getUint32(mdhd.start + 20); dur = view.getUint32(mdhd.start + 24); }
+                                else           { ts = view.getUint32(mdhd.start + 28); dur = view.getUint32(mdhd.start + 32) * 0x100000000 + view.getUint32(mdhd.start + 36); }
+                                if (!ts || !dur) return null;
+                                const stbl = findBox(bytes, view, 'stbl', minf.start + 8, minf.end);
+                                if (stbl) {
+                                    const stts = findBox(bytes, view, 'stts', stbl.start + 8, stbl.end);
+                                    if (stts) {
+                                        const count = view.getUint32(stts.start + 12);
+                                        let frames = 0;
+                                        for (let e = 0; e < count; e++) frames += view.getUint32(stts.start + 16 + e * 8);
+                                        if (frames > 0) return Math.round((frames / (dur / ts)) * 100) / 100;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            i += size;
+        }
+    } catch (_) {}
+    return null;
+}
+
+// ═══════════════════════════════════════════════════
+//  PATCH
+// ═══════════════════════════════════════════════════
+async function runPatch() {
+    if (!currentFile) return;
+    showState('processing');
+    try {
+        await doPatch(currentFile, detectedFps || 60);
+        showState('result', true);
+    } catch (err) {
+        showState('result', false, err.message);
+    }
+}
+
+async function doPatch(file, fps) {
+    const tick = (pct, txt) => {
+        $('progFill').style.width = pct + '%';
+        $('procSub').textContent = txt;
+        return new Promise(r => setTimeout(r, 60));
+    };
+
+    await tick(15, 'Loading buffer…');
+    const arrayBuffer = await file.arrayBuffer();
+    const bytes = new Uint8Array(arrayBuffer);
+    const view  = new DataView(arrayBuffer);
+
+    await tick(45, 'Scanning MVHD / MDHD…');
+    await new Promise(r => setTimeout(r, 150));
+
+    const scale = 30 / fps;
+    await tick(65, 'Patching MVHD…');
+    const c1 = patchAtom(bytes, view, 'mvhd', scale);
+    await tick(85, 'Patching MDHD…');
+    const c2 = patchAtom(bytes, view, 'mdhd', scale);
+
+    patchedAtoms  = c1 + c2;
+    patchedBuffer = arrayBuffer;
+
+    await tick(100, 'Complete ✓');
+    await new Promise(r => setTimeout(r, 250));
+}
+
+function patchAtom(bytes, view, name, scaleFactor) {
+    const enc = new TextEncoder().encode(name);
+    let count = 0;
+    for (let i = 4; i < bytes.length - 8; i++) {
+        if (bytes[i]!==enc[0]||bytes[i+1]!==enc[1]||bytes[i+2]!==enc[2]||bytes[i+3]!==enc[3]) continue;
+        const hdr = i - 4;
+        const boxSize = view.getUint32(hdr);
+        if (boxSize < 8) continue;
+        const ver = bytes[hdr + 8];
+        const tsOff = ver === 0 ? hdr + 20 : hdr + 28;
+        if (tsOff + 4 > hdr + boxSize) continue;
+        const old = view.getUint32(tsOff);
+        if (!old) continue;
+        view.setUint32(tsOff, Math.max(1, Math.floor(old * scaleFactor)));
+        count++;
+    }
+    return count;
+}
+
+// ═══════════════════════════════════════════════════
+//  DOWNLOAD
+// ═══════════════════════════════════════════════════
+function downloadPatched() {
+    if (!patchedBuffer || !currentFile) return;
+    const url = URL.createObjectURL(new Blob([patchedBuffer], { type: 'video/mp4' }));
+    const a = Object.assign(document.createElement('a'), { href: url, download: currentFile.name.replace(/\.mp4$/i, '') + '_tiktok.mp4' });
+    document.body.appendChild(a); a.click(); document.body.removeChild(a);
+    setTimeout(() => URL.revokeObjectURL(url), 10000);
+}
+
+// ═══════════════════════════════════════════════════
+//  STATE MACHINE
+// ═══════════════════════════════════════════════════
+function showState(state, ok, errMsg) {
+    // Hide everything
+    $('dropzone').style.display    = 'none';
+    $('fileInfo').style.display    = 'none';
+    $('fpsBadge').classList.remove('show');
+    $('statusRow').style.display   = 'none';
+    $('actionWrap').style.display  = 'none';
+    $('procPanel').style.display   = 'none';
+    $('resultPanel').style.display = 'none';
+    $('howSection').style.display  = 'none';
+    step(1,false,false); step(2,false,false); step(3,false,false);
+
+    if (state === 'drop') {
+        $('dropzone').style.display  = 'flex';
+        $('howSection').style.display = 'grid';
+        step(1, true, false);
+        currentFile = null; patchedBuffer = null; patchedAtoms = 0; detectedFps = null;
+        $('fileInput').value = '';
+    }
+    else if (state === 'ready') {
+        $('dropzone').style.display   = 'none';
+        $('fileInfo').style.display   = 'flex';
+        $('fpsBadge').classList.add('show');
+        $('actionWrap').style.display = 'block';
+        step(1,false,true); step(2,true,false);
+    }
+    else if (state === 'processing') {
+        $('fileInfo').style.display   = 'flex';
+        $('statusRow').style.display  = 'flex';
+        $('procPanel').style.display  = 'block';
+        $('progFill').style.width     = '0%';
+        step(1,false,true); step(2,true,false);
+    }
+    else if (state === 'result') {
+        $('resultPanel').style.display = 'block';
+        renderResult(ok, errMsg);
+        step(1,false,true); step(2,false,true); step(3, !ok, ok);
+    }
+}
+
+function step(n, active, done) {
+    const el = $('s' + n);
+    el.classList.toggle('active', active);
+    el.classList.toggle('done',   done);
+    el.querySelector('.step-circle').textContent = done ? '✓' : n;
+}
+
+function renderResult(ok, errMsg) {
+    $('resultPanel').innerHTML = ok ? `
+        <div class="result-head ok">
+            <div class="result-head-icon ok">✓</div>
+            <div>
+                <div class="result-label ok">Patch Complete</div>
+                <div class="result-filename">${currentFile.name}</div>
             </div>
         </div>
-    </section>
+        <div class="stats">
+            <div class="stat">
+                <div class="stat-label">Original FPS</div>
+                <div class="stat-val">${detectedFps ? detectedFps.toFixed(2) : '60.00'}</div>
+                <div class="stat-unit">fps</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">Atoms Patched</div>
+                <div class="stat-val accent">${patchedAtoms}</div>
+                <div class="stat-unit">units</div>
+            </div>
+            <div class="stat">
+                <div class="stat-label">File Size</div>
+                <div class="stat-val">${fmtBytes(currentFile.size)}</div>
+                <div class="stat-unit"></div>
+            </div>
+        </div>
+        <div class="result-btns">
+            <button class="btn-dl" onclick="downloadPatched()">⬇ Download</button>
+            <button class="btn-again" onclick="showState('drop')">New File</button>
+        </div>` : `
+        <div class="result-head err">
+            <div class="result-head-icon err">✕</div>
+            <div>
+                <div class="result-label err">Patch Failed</div>
+                <div class="result-filename">${currentFile?.name || '—'}</div>
+            </div>
+        </div>
+        <div class="err-msg">${errMsg || 'An unexpected error occurred.'}</div>
+        <div class="result-btns">
+            <button class="btn-again" style="flex:1;" onclick="showState('drop')">Try Again</button>
+        </div>`;
+}
 
-    <footer>
-        Maska.Dev Architecture © 2026 // All Rights Reserved
-    </footer>
+function fmtBytes(b) {
+    if (!b) return '0 B';
+    const k = 1024, s = ['B','KB','MB','GB'];
+    const i = Math.floor(Math.log(b) / Math.log(k));
+    return parseFloat((b / Math.pow(k, i)).toFixed(1)) + ' ' + s[i];
+}
 
-    <script>
-        let selectedFile = null;
-        let targetFPS = '60';
-        let patchedBlobUrl = null;
-
-        const canvas = document.getElementById('particleCanvas');
-        const ctx = canvas.getContext('2d');
-        let particlesArray = [];
-
-        function resizeCanvas() {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        }
-        window.addEventListener('resize', resizeCanvas);
-        resizeCanvas();
-
-        class Particle {
-            constructor() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2.5 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.6;
-                this.speedY = (Math.random() - 0.5) * 0.6 - 0.2;
-                this.opacity = Math.random() * 0.5 + 0.2;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width) this.speedX = -this.speedX;
-                if (this.y < 0 || this.y > canvas.height) this.y = canvas.height;
-            }
-            draw() {
-                ctx.fillStyle = document.body.getAttribute('data-theme') === 'light'
-                    ? `rgba(137, 3, 217, ${this.opacity})`
-                    : `rgba(176, 38, 255, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
-        }
-
-        function initParticles() {
-            particlesArray = [];
-            let numberOfParticles = Math.floor((canvas.width * canvas.height) / 15000);
-            for (let i = 0; i < numberOfParticles; i++) {
-                particlesArray.push(new Particle());
-            }
-        }
-        initParticles();
-
-        function animateParticles() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            for (let i = 0; i < particlesArray.length; i++) {
-                particlesArray[i].update();
-                particlesArray[i].draw();
-            }
-            requestAnimationFrame(animateParticles);
-        }
-        animateParticles();
-
-        function toggleTheme() {
-            const body = document.body;
-            const currentTheme = body.getAttribute("data-theme");
-            body.setAttribute("data-theme", currentTheme === "dark" ? "light" : "dark");
-        }
-
-        function switchView(viewName) {
-            const homeView = document.getElementById('homeView');
-            const studioView = document.getElementById('studioView');
-            if (viewName === 'studio') {
-                homeView.classList.remove('active');
-                studioView.classList.add('active');
-            } else {
-                studioView.classList.remove('active');
-                homeView.classList.add('active');
-            }
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function selectOption(element, fpsValue) {
-            const siblings = element.parentNode.children;
-            for (let el of siblings) el.classList.remove('active');
-            element.classList.add('active');
-            targetFPS = fpsValue;
-            unlockStep('step3');
-        }
-
-        function handleFileSelect(event) {
-            const file = event.target.files[0];
-            if (file) {
-                selectedFile = file;
-                document.getElementById('fileNameText').innerText = "ARCHIVO: " + file.name.toUpperCase();
-                unlockStep('step2');
-            }
-        }
-
-        function unlockStep(stepId) {
-            const step = document.getElementById(stepId);
-            if (step && step.classList.contains('locked')) {
-                step.classList.remove('locked');
-            }
-        }
-
-        function startRenderProcess() {
-            if (!selectedFile) return;
-            const statusEl = document.getElementById('renderStatus');
-            const progressFill = document.getElementById('progressFill');
-
-            statusEl.innerText = "READING ATOMS...";
-            progressFill.style.width = "30%";
-
-            setTimeout(() => {
-                progressFill.style.width = "70%";
-                statusEl.innerText = "PATCHING MVHD/MDHD...";
-            }, 1000);
-
-            setTimeout(() => {
-                progressFill.style.width = "100%";
-                statusEl.innerText = "SUCCESS";
-                const patchedBytes = selectedFile.slice(0, selectedFile.size, selectedFile.type);
-                patchedBlobUrl = URL.createObjectURL(patchedBytes);
-                unlockStep('step4');
-            }, 2200);
-        }
-
-        function downloadPatchedFile() {
-            if (!patchedBlobUrl) return;
-            const a = document.createElement('a');
-            a.href = patchedBlobUrl;
-            a.download = `patched_${targetFPS}fps_${selectedFile.name}`;
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        }
-    </script>
+showState('drop');
+</script>
 </body>
 </html>
