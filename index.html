@@ -389,7 +389,6 @@
             background: linear-gradient(to bottom, var(--primary-accent), transparent);
         }
 
-        /* ESTILOS PARA PASOS BLOQUEADOS */
         .step-wrapper.locked {
             opacity: 0.45;
             filter: grayscale(0.8);
@@ -626,7 +625,7 @@
             <div class="hero-image-container">
                 <img src="503b650047bc2e1d89bc29ef09d912bf.jpg" alt="Imagen" onerror="this.style.display='none'; document.getElementById('fallbackMsg').style.display='block';">
                 <div id="fallbackMsg" class="image-error-fallback" style="display: none;">
-                    <span>⚠️ Imagen no encontrada por GitHub</span>
+                    <span>⚠️ Imagen no encontrada</span>
                     Sube la foto a tu repositorio con el nombre exacto:<br><strong>503b650047bc2e1d89bc29ef09d912bf.jpg</strong>
                 </div>
             </div>
@@ -710,11 +709,10 @@
     </section>
 
     <footer>
-        Maska.Dev Architecture &copy; 2026 // All Rights Reserved
+        Maska.Dev Architecture © 2026 // All Rights Reserved
     </footer>
 
     <script>
-        // Variables globales para almacenar el estado del archivo y configuración
         let selectedFile = null;
         let targetFPS = '60';
         let patchedBlobUrl = null;
@@ -746,8 +744,8 @@
                 if (this.y < 0 || this.y > canvas.height) this.y = canvas.height;
             }
             draw() {
-                ctx.fillStyle = document.body.getAttribute('data-theme') === 'light' 
-                    ? `rgba(137, 3, 217, ${this.opacity})` 
+                ctx.fillStyle = document.body.getAttribute('data-theme') === 'light'
+                    ? `rgba(137, 3, 217, ${this.opacity})`
                     : `rgba(176, 38, 255, ${this.opacity})`;
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
@@ -777,37 +775,27 @@
         function toggleTheme() {
             const body = document.body;
             const currentTheme = body.getAttribute("data-theme");
-            if (currentTheme === "dark") {
-                body.setAttribute("data-theme", "light");
-            } else {
-                body.setAttribute("data-theme", "dark");
-            }
+            body.setAttribute("data-theme", currentTheme === "dark" ? "light" : "dark");
         }
 
         function switchView(viewName) {
             const homeView = document.getElementById('homeView');
             const studioView = document.getElementById('studioView');
-
             if (viewName === 'studio') {
                 homeView.classList.remove('active');
                 studioView.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             } else {
                 studioView.classList.remove('active');
                 homeView.classList.add('active');
-                window.scrollTo({ top: 0, behavior: 'smooth' });
             }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function selectOption(element, fpsValue) {
             const siblings = element.parentNode.children;
-            for (let el of siblings) {
-                el.classList.remove('active');
-            }
+            for (let el of siblings) el.classList.remove('active');
             element.classList.add('active');
             targetFPS = fpsValue;
-            
-            // Desbloquea Paso 3 al configurar los FPS
             unlockStep('step3');
         }
 
@@ -816,8 +804,6 @@
             if (file) {
                 selectedFile = file;
                 document.getElementById('fileNameText').innerText = "ARCHIVO: " + file.name.toUpperCase();
-                
-                // Desbloquea Paso 2 al cargar el archivo
                 unlockStep('step2');
             }
         }
@@ -831,10 +817,9 @@
 
         function startRenderProcess() {
             if (!selectedFile) return;
-            
             const statusEl = document.getElementById('renderStatus');
             const progressFill = document.getElementById('progressFill');
-            
+
             statusEl.innerText = "READING ATOMS...";
             progressFill.style.width = "30%";
 
@@ -846,13 +831,8 @@
             setTimeout(() => {
                 progressFill.style.width = "100%";
                 statusEl.innerText = "SUCCESS";
-
-                // AQUÍ ES DONDE INTEGRAS LA LÓGICA DE TU SCRIPT DE SOURCE:
-                // Por ahora simulamos la creación del archivo manipulado a partir del original
                 const patchedBytes = selectedFile.slice(0, selectedFile.size, selectedFile.type);
                 patchedBlobUrl = URL.createObjectURL(patchedBytes);
-
-                // Desbloquea Paso 4 para la descarga
                 unlockStep('step4');
             }, 2200);
         }
